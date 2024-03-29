@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:poke_scouter/constants/text_style.dart';
 import 'package:poke_scouter/domain/firebase/party.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,13 +19,14 @@ class PartyWidget extends HookConsumerWidget {
     return Card(
       shape: selected
           ? const RoundedRectangleBorder(
-              side: BorderSide(
-                color: Colors.pink,
+              side: BorderSide(color: Color(0xFF808000), width: 2.0),
+              borderRadius: BorderRadius.all(
+                Radius.circular(12.0),
               ),
             )
           : null,
       child: Padding(
-        padding: const EdgeInsets.all(4.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
