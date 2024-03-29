@@ -185,7 +185,6 @@ class BattleMemoPage extends HookConsumerWidget {
                           },
                           childCount: party.partyNameList.length,
                         );
-                        // return PartyWidget(party, false);
                       },
                       error: (e, __) {
                         return SliverChildListDelegate([
