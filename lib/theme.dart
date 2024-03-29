@@ -39,6 +39,17 @@ final themeProvider = Provider.family<ThemeData, Brightness>((ref, brightness) {
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: Colors.teal,
     ),
+    inputDecorationTheme: const InputDecorationTheme(
+      border: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.pink, width: 2.0),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.teal, width: 2.0),
+      ),
+    ),
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: Color(0xFF009999),
+    ),
   );
   return theme.copyWith(
       colorScheme: theme.colorScheme.copyWith(secondary: Colors.lime));
