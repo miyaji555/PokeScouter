@@ -32,7 +32,6 @@ class PokemonTextField extends ConsumerWidget {
           focusNode: fieldFocusNode,
           style: const TextStyle(fontWeight: FontWeight.bold),
           decoration: InputDecoration(
-            border: const OutlineInputBorder(),
             suffixIcon: IconButton(
               onPressed: fieldTextEditingController.clear,
               icon: const Icon(Icons.clear),

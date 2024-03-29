@@ -23,14 +23,12 @@ class HistoryPage extends HookWidget {
         initialLength: tabs.length, initialIndex: initialIndex);
     return Scaffold(
       appBar: AppBar(
-          title: const Text(kPageNameHistory),
-          bottom: ColoredTabBar(
-            tabBar: TabBar(
-              tabs: tabs,
-              controller: tabController,
-            ),
-            color: Theme.of(context).primaryColorDark,
-          )),
+        title: const Text(kPageNameHistory),
+        bottom: TabBar(
+          tabs: tabs,
+          controller: tabController,
+        ),
+      ),
       body: TabBarView(
         controller: tabController,
         children: const [
