@@ -185,7 +185,6 @@ class BattleMemoPage extends HookConsumerWidget {
                           },
                           childCount: party.partyNameList.length,
                         );
-                        // return PartyWidget(party, false);
                       },
                       error: (e, __) {
                         return SliverChildListDelegate([
@@ -214,29 +213,23 @@ class BattleMemoPage extends HookConsumerWidget {
                   Wrap(
                     spacing: 10,
                     children: [
-                      ChoiceChip(
-                        label: const Text("勝利"),
-                        selected: result.value == BattleResult.win,
-                        backgroundColor: Colors.grey[600],
-                        selectedColor: Colors.white,
+                      _ChoiceChip(
+                        isSelected: result.value == BattleResult.win,
+                        label: "勝利",
                         onSelected: (_) {
                           result.value = BattleResult.win;
                         },
                       ),
-                      ChoiceChip(
-                        label: const Text("引き分け"),
-                        selected: result.value == BattleResult.draw,
-                        backgroundColor: Colors.grey[600],
-                        selectedColor: Colors.white,
+                      _ChoiceChip(
+                        isSelected: result.value == BattleResult.draw,
+                        label: "引き分け",
                         onSelected: (_) {
                           result.value = BattleResult.draw;
                         },
                       ),
-                      ChoiceChip(
-                        label: const Text("負け"),
-                        selected: result.value == BattleResult.lose,
-                        backgroundColor: Colors.grey[600],
-                        selectedColor: Colors.white,
+                      _ChoiceChip(
+                        isSelected: result.value == BattleResult.lose,
+                        label: "負け",
                         onSelected: (_) {
                           result.value = BattleResult.lose;
                         },
@@ -299,5 +292,28 @@ class BattleMemoPage extends HookConsumerWidget {
                 child: Center(child: CircularProgressIndicator()))),
       ],
     );
+  }
+}
+
+class _ChoiceChip extends StatelessWidget {
+  const _ChoiceChip({
+    required this.isSelected,
+    required this.label,
+    required this.onSelected,
+  });
+  final bool isSelected;
+  final String label;
+  final void Function(bool) onSelected;
+  @override
+  Widget build(BuildContext context) {
+    return ChoiceChip(
+        label: Text(label),
+        selected: isSelected,
+        backgroundColor: Colors.grey[600],
+        // darkmode
+        selectedColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.white
+            : Colors.black,
+        onSelected: onSelected);
   }
 }

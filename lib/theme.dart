@@ -22,9 +22,11 @@ final themeProvider = Provider.family<ThemeData, Brightness>((ref, brightness) {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        foregroundColor: MaterialStateColor.resolveWith((states) =>
-            states.contains(MaterialState.disabled)
-                ? const Color(0xFF446666)
+        foregroundColor: MaterialStateColor.resolveWith(
+            (states) => states.contains(MaterialState.disabled)
+                ? brightness == Brightness.dark
+                    ? Colors.white60
+                    : const Color(0xFF446666)
                 : const Color(0xFF003333)),
         backgroundColor: MaterialStateColor.resolveWith((states) =>
             states.contains(MaterialState.disabled)
