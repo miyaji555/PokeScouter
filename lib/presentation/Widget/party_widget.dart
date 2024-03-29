@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:poke_scouter/constants/text_style.dart';
 import 'package:poke_scouter/domain/firebase/party.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
