@@ -12,9 +12,9 @@ final themeProvider = Provider.family<ThemeData, Brightness>((ref, brightness) {
       foregroundColor: Color(0xFF003333),
     ),
     tabBarTheme: const TabBarTheme(
-      labelColor: Color(0xFF808000),
+      labelColor: Color(0xFF800080),
       unselectedLabelColor: Colors.white60,
-      indicatorColor: Color(0xFF808000),
+      indicatorColor: Color(0xFF800080),
     ),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       foregroundColor: Color(0xFF003333),
