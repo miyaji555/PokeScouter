@@ -66,9 +66,7 @@ class BattleWidget extends ConsumerWidget {
                         child: Text(
                           name,
                           style: textStylePlain.copyWith(
-                              color: (isContains(name))
-                                  ? Colors.red
-                                  : Colors.black),
+                              color: (isContains(name)) ? Colors.red : null),
                         ),
                       ))
                   .toList(),
@@ -89,7 +87,7 @@ class BattleWidget extends ConsumerWidget {
                           style: textStylePlain.copyWith(
                               color: (isContains(battle.opponentParty[index]) ||
                                       !isSuggestPage)
-                                  ? Colors.black
+                                  ? null
                                   : Colors.red),
                         ),
                       ))
