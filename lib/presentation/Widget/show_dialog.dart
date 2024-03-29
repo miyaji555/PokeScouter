@@ -12,6 +12,7 @@ Future<void> showTextDialog(
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
+        scrollable: true,
         title: SelectableText(
           title,
         ),
