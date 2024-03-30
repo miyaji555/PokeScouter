@@ -53,3 +53,6 @@ keyについて.txt
 # FVM Version Cache
 .fvm/
 .vscode/launch.json
+
+
+python/venv
