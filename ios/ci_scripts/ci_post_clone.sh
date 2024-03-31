@@ -23,6 +23,6 @@ brew install cocoapods
 # Install CocoaPods dependencies.
 cd ios && pod install # run `pod install` in the `ios` directory.
 
-flutter build ios --release --dart-define=flavor=prod
+flutter build ios --config-only --dart-define=flavor=prod
 
 exit 0
