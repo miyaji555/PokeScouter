@@ -7,6 +7,7 @@ import 'package:poke_scouter/presentation/Widget/battle_widget.dart';
 import 'package:poke_scouter/presentation/Widget/show_dialog.dart';
 import 'package:poke_scouter/presentation/Widget/tutorial_widget.dart';
 import 'package:poke_scouter/presentation/top/top_page_state.dart';
+import 'package:poke_scouter/providers/admob_id_provider.dart';
 import 'package:poke_scouter/providers/tutorial_provider.dart';
 import '../../constants/text_style.dart';
 import 'package:poke_scouter/scaffold_messenger.dart';
@@ -22,6 +23,7 @@ class BattleSuggestPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pokemonListNotifier =
         ref.read(pokemonListProvider(kPageNameBattleStart));
+    final id = ref.watch(admobId);
     final admobState = ref.watch(admobRepositoryProvider);
     final showTutorial = ref.watch(showBattleSuggestTutorialProvider);
     return Stack(
@@ -53,7 +55,7 @@ class BattleSuggestPage extends ConsumerWidget {
                             child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            "似たような対戦相手との対戦履歴がありません。\n対戦履歴を登録することで次に似たパーティと対戦する際に表示されます。",
+                            "似たような対戦相手との対戦履歴がありません。\n対戦履歴を登録することで次に似たパーティと対戦する際に表示されます。\n admobid: ${id.length}",
                             style: textStyleGreyPlain,
                           ),
                         ));
