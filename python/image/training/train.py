@@ -4,40 +4,44 @@ from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.layers import Dense, Input,GlobalAveragePooling2D
 from tensorflow.keras.models import Model
 
+project_path = "."
 
+# 生成元画像のパス
+input_folder_path = project_path + "/../output"
 
+# ラベルを読み込む
+spreadsheet_path = project_path + '/学習ラベル.csv'
+df = pd.read_csv(spreadsheet_path)
 
 # 画像データジェネレータの設定
 train_datagen = ImageDataGenerator(
-    rescale=1./255,
-    rotation_range=20,
-    width_shift_range=0.2,
-    height_shift_range=0.2,
-    shear_range=0.2,
-    zoom_range=0.2,
-    horizontal_flip=True,
-    fill_mode='nearest',
+    rescale=1./255,  # 画像の正規化のみ行う
     validation_split=0.2  # 20%を検証用に分割
 )
 
 # トレーニングデータジェネレータ
-train_generator = train_datagen.flow_from_directory(
-    directory='output',  # 画像ファイルのディレクトリを指定
+train_generator = train_datagen.flow_from_dataframe(
+    dataframe=df,
+    directory=input_folder_path,  # 画像ファイルのディレクトリを指定
+    x_col='filename',  # 画像ファイル名が格納されている列名
+    y_col='poke_name',  # ラベルが格納されている列名
     target_size=(224, 224),
     batch_size=32,
     class_mode='categorical',
-    subset='training'  # トレーニングデータ用
+    subset='training'
 )
 
 # 検証データジェネレータ
-validation_generator = train_datagen.flow_from_directory(
-    directory='output',  # 画像ファイルのディレクトリを指定
+validation_generator = train_datagen.flow_from_dataframe(
+    dataframe=df,
+    directory=input_folder_path,  # 画像ファイルのディレクトリを指定
+    x_col='filename',  # 画像ファイル名が格納されている列名
+    y_col='poke_name',  # ラベルが格納されている列名
     target_size=(224, 224),
     batch_size=32,
     class_mode='categorical',
-    subset='validation'  # 検証データ用
+    subset='validation'
 )
-
 # ベースとなるモデルをロード
 base_model = MobileNetV2(weights='imagenet', include_top=False, input_tensor=Input(shape=(224, 224, 3)))
 
