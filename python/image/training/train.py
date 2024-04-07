@@ -4,11 +4,7 @@ from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.layers import Dense, Input,GlobalAveragePooling2D
 from tensorflow.keras.models import Model
 
-# CSVファイルを読み込む
-labels_df = pd.read_csv('学習ラベル.csv')
 
-# 結果を確認
-print(labels_df.head())
 
 
 # 画像データジェネレータの設定
@@ -25,29 +21,22 @@ train_datagen = ImageDataGenerator(
 )
 
 # トレーニングデータジェネレータ
-train_generator = train_datagen.flow_from_dataframe(
-    dataframe=labels_df,
-    directory='../output',  # 画像ファイルのディレクトリを指定
-    x_col='filename',  # 画像ファイル名が格納されている列名
-    y_col='poke_name',  # ラベルが格納されている列名
-    class_mode='categorical',
+train_generator = train_datagen.flow_from_directory(
+    directory='output',  # 画像ファイルのディレクトリを指定
     target_size=(224, 224),
     batch_size=32,
+    class_mode='categorical',
     subset='training'  # トレーニングデータ用
 )
 
 # 検証データジェネレータ
-validation_generator = train_datagen.flow_from_dataframe(
-    dataframe=labels_df,
-    directory='../output',  # 画像ファイルのディレクトリを指定
-    x_col='filename',  # 画像ファイル名が格納されている列名
-    y_col='poke_name',  # ラベルが格納されている列名
-    class_mode='categorical',
+validation_generator = train_datagen.flow_from_directory(
+    directory='output',  # 画像ファイルのディレクトリを指定
     target_size=(224, 224),
     batch_size=32,
+    class_mode='categorical',
     subset='validation'  # 検証データ用
 )
-
 
 # ベースとなるモデルをロード
 base_model = MobileNetV2(weights='imagenet', include_top=False, input_tensor=Input(shape=(224, 224, 3)))

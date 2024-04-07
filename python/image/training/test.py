@@ -6,7 +6,7 @@ from tensorflow.keras.models import load_model
 model = load_model('object_detection_model.h5')
 
 # テスト画像のロード（'test_image.png'はテストしたい画像のパスに置き換えてください）
-img_path = '/Users/miyasic/Project/flutter/PokeScouter/python/image/training/output/アシレーヌ/アシレーヌ_0_485.png'
+img_path = '/Users/miyasic/Project/flutter/PokeScouter/python/image/training/output/アシレーヌ/アシレーヌ_0_134.png'
 img = image.load_img(img_path, target_size=(224, 224))
 
 # 画像をモデルの入力に適した形式に変換
