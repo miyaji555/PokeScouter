@@ -5,33 +5,49 @@ from tensorflow.keras.layers import Dense, Input,GlobalAveragePooling2D
 from tensorflow.keras.models import Model
 
 # CSVファイルを読み込む
-labels_df = pd.read_csv('labels.csv')
-
-# 'poke_name' 列から改行文字を削除
-labels_df['poke_name'] = labels_df['poke_name'].str.replace('\n', ' ').str.strip()
+labels_df = pd.read_csv('学習ラベル.csv')
 
 # 結果を確認
 print(labels_df.head())
 
-# 'poke_name'列が文字列型であることを確認（必要であれば変換）
-if labels_df['poke_name'].dtype != 'object':
-    labels_df['poke_name'] = labels_df['poke_name'].astype(str)
-
-print(labels_df)
 
 # 画像データジェネレータの設定
-datagen = ImageDataGenerator(rescale=1./255)
+train_datagen = ImageDataGenerator(
+    rescale=1./255,
+    rotation_range=20,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True,
+    fill_mode='nearest',
+    validation_split=0.2  # 20%を検証用に分割
+)
 
-# 画像データジェネレータを使用して画像とラベルを読み込む
-train_generator = datagen.flow_from_dataframe(
+# トレーニングデータジェネレータ
+train_generator = train_datagen.flow_from_dataframe(
     dataframe=labels_df,
     directory='../output',  # 画像ファイルのディレクトリを指定
     x_col='filename',  # 画像ファイル名が格納されている列名
     y_col='poke_name',  # ラベルが格納されている列名
     class_mode='categorical',
     target_size=(224, 224),
-    batch_size=32
+    batch_size=32,
+    subset='training'  # トレーニングデータ用
 )
+
+# 検証データジェネレータ
+validation_generator = train_datagen.flow_from_dataframe(
+    dataframe=labels_df,
+    directory='../output',  # 画像ファイルのディレクトリを指定
+    x_col='filename',  # 画像ファイル名が格納されている列名
+    y_col='poke_name',  # ラベルが格納されている列名
+    class_mode='categorical',
+    target_size=(224, 224),
+    batch_size=32,
+    subset='validation'  # 検証データ用
+)
+
 
 # ベースとなるモデルをロード
 base_model = MobileNetV2(weights='imagenet', include_top=False, input_tensor=Input(shape=(224, 224, 3)))
@@ -49,7 +65,11 @@ model = Model(inputs=base_model.input, outputs=predictions)
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 # モデルのトレーニング
-model.fit(train_generator, epochs=10)
+model.fit(
+    train_generator,
+    epochs=10,
+    validation_data=validation_generator
+)
 
 # モデルの保存
 model.save('object_detection_model.h5')
