@@ -20,11 +20,8 @@ train_datagen = ImageDataGenerator(
 )
 
 # トレーニングデータジェネレータ
-train_generator = train_datagen.flow_from_dataframe(
-    dataframe=df,
-    directory=input_folder_path,  # 画像ファイルのディレクトリを指定
-    x_col='filename',  # 画像ファイル名が格納されている列名
-    y_col='poke_name',  # ラベルが格納されている列名
+train_generator = train_datagen.flow_from_directory(
+    directory='output',  # 画像ファイルのディレクトリを指定
     target_size=(224, 224),
     batch_size=32,
     class_mode='categorical',
@@ -32,11 +29,8 @@ train_generator = train_datagen.flow_from_dataframe(
 )
 
 # 検証データジェネレータ
-validation_generator = train_datagen.flow_from_dataframe(
-    dataframe=df,
-    directory=input_folder_path,  # 画像ファイルのディレクトリを指定
-    x_col='filename',  # 画像ファイル名が格納されている列名
-    y_col='poke_name',  # ラベルが格納されている列名
+validation_generator = train_datagen.flow_from_directory(
+    directory='output',  # 画像ファイルのディレクトリを指定
     target_size=(224, 224),
     batch_size=32,
     class_mode='categorical',
