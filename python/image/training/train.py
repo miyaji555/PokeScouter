@@ -62,7 +62,7 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 # モデルのトレーニング
 model.fit(
     train_generator,
-    epochs=10,
+    epochs=3,
     validation_data=validation_generator
 )
 
