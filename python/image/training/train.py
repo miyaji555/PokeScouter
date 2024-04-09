@@ -9,15 +9,14 @@ project_path = "."
 # 生成元画像のパス
 input_folder_path = project_path + "/../output"
 
-# ラベルを読み込む
-spreadsheet_path = project_path + '/学習ラベル.csv'
-df = pd.read_csv(spreadsheet_path)
-
 # 画像データジェネレータの設定
 train_datagen = ImageDataGenerator(
     rescale=1./255,  # 画像の正規化のみ行う
     validation_split=0.2  # 20%を検証用に分割
 )
+
+
+
 
 # トレーニングデータジェネレータ
 train_generator = train_datagen.flow_from_directory(
@@ -28,35 +27,37 @@ train_generator = train_datagen.flow_from_directory(
     subset='training'
 )
 
-# 検証データジェネレータ
-validation_generator = train_datagen.flow_from_directory(
-    directory='output',  # 画像ファイルのディレクトリを指定
-    target_size=(224, 224),
-    batch_size=32,
-    class_mode='categorical',
-    subset='validation'
-)
-# ベースとなるモデルをロード
-base_model = MobileNetV2(weights='imagenet', include_top=False, input_tensor=Input(shape=(224, 224, 3)))
+class_indices = train_generator.class_indices
+print(class_indices)
+# # 検証データジェネレータ
+# validation_generator = train_datagen.flow_from_directory(
+#     directory='output',  # 画像ファイルのディレクトリを指定
+#     target_size=(224, 224),
+#     batch_size=32,
+#     class_mode='categorical',
+#     subset='validation'
+# )
+# # ベースとなるモデルをロード
+# base_model = MobileNetV2(weights='imagenet', include_top=False, input_tensor=Input(shape=(224, 224, 3)))
 
-# ベースモデルの出力に全結合層を追加する前にグローバル平均プーリング層を追加
-x = base_model.output
-x = GlobalAveragePooling2D()(x)  # 2D特徴マップを1Dベクトルに変換
-x = Dense(1024, activation='relu')(x)
-predictions = Dense(len(train_generator.class_indices), activation='softmax')(x)
+# # ベースモデルの出力に全結合層を追加する前にグローバル平均プーリング層を追加
+# x = base_model.output
+# x = GlobalAveragePooling2D()(x)  # 2D特徴マップを1Dベクトルに変換
+# x = Dense(1024, activation='relu')(x)
+# predictions = Dense(len(train_generator.class_indices), activation='softmax')(x)
 
-# モデルを定義
-model = Model(inputs=base_model.input, outputs=predictions)
+# # モデルを定義
+# model = Model(inputs=base_model.input, outputs=predictions)
 
-# モデルのコンパイル
-model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+# # モデルのコンパイル
+# model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-# モデルのトレーニング
-model.fit(
-    train_generator,
-    epochs=10,
-    validation_data=validation_generator
-)
+# # モデルのトレーニング
+# model.fit(
+#     train_generator,
+#     epochs=10,
+#     validation_data=validation_generator
+# )
 
-# モデルの保存
-model.save('object_detection_model.h5')
+# # モデルの保存
+# model.save('object_detection_model.h5')

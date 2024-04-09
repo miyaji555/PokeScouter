@@ -6,7 +6,7 @@ import sys
 from tensorflow.keras.preprocessing.image import ImageDataGenerator, load_img, img_to_array
 
 # 生成枚数（１枚あたり）
-n_img = 20
+n_img = 50
 
 project_path = "."
 
@@ -43,7 +43,10 @@ for index, row in df.iterrows():
         x = np.expand_dims(x, axis=0)
 
         datagen = ImageDataGenerator(
-            rotation_range=10.0,
+            rotation_range=30.0,
+            width_shift_range=0.2,  # 最大20%の幅で水平シフト
+            height_shift_range=0.2,  # 最大20%の高さで垂直シフト
+            shear_range=0.2,  # 画像を最大20%で歪ませる
             horizontal_flip=True,
             vertical_flip=True,
         )
