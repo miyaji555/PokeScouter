@@ -27,37 +27,44 @@ train_generator = train_datagen.flow_from_directory(
     subset='training'
 )
 
+# クラスとラベルの対応表を取得
 class_indices = train_generator.class_indices
-print(class_indices)
-# # 検証データジェネレータ
-# validation_generator = train_datagen.flow_from_directory(
-#     directory='output',  # 画像ファイルのディレクトリを指定
-#     target_size=(224, 224),
-#     batch_size=32,
-#     class_mode='categorical',
-#     subset='validation'
-# )
-# # ベースとなるモデルをロード
-# base_model = MobileNetV2(weights='imagenet', include_top=False, input_tensor=Input(shape=(224, 224, 3)))
 
-# # ベースモデルの出力に全結合層を追加する前にグローバル平均プーリング層を追加
-# x = base_model.output
-# x = GlobalAveragePooling2D()(x)  # 2D特徴マップを1Dベクトルに変換
-# x = Dense(1024, activation='relu')(x)
-# predictions = Dense(len(train_generator.class_indices), activation='softmax')(x)
+# テキストファイルに出力
+with open('class_labels.txt', 'w') as file:
+    for class_name, index in class_indices.items():
+        file.write(f'{class_name}: {index}\n')
 
-# # モデルを定義
-# model = Model(inputs=base_model.input, outputs=predictions)
 
-# # モデルのコンパイル
-# model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+# 検証データジェネレータ
+validation_generator = train_datagen.flow_from_directory(
+    directory='output',  # 画像ファイルのディレクトリを指定
+    target_size=(224, 224),
+    batch_size=32,
+    class_mode='categorical',
+    subset='validation'
+)
+# ベースとなるモデルをロード
+base_model = MobileNetV2(weights='imagenet', include_top=False, input_tensor=Input(shape=(224, 224, 3)))
 
-# # モデルのトレーニング
-# model.fit(
-#     train_generator,
-#     epochs=10,
-#     validation_data=validation_generator
-# )
+# ベースモデルの出力に全結合層を追加する前にグローバル平均プーリング層を追加
+x = base_model.output
+x = GlobalAveragePooling2D()(x)  # 2D特徴マップを1Dベクトルに変換
+x = Dense(1024, activation='relu')(x)
+predictions = Dense(len(train_generator.class_indices), activation='softmax')(x)
 
-# # モデルの保存
-# model.save('object_detection_model.h5')
+# モデルを定義
+model = Model(inputs=base_model.input, outputs=predictions)
+
+# モデルのコンパイル
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+# モデルのトレーニング
+model.fit(
+    train_generator,
+    epochs=10,
+    validation_data=validation_generator
+)
+
+# モデルの保存
+model.save('object_detection_model.h5')

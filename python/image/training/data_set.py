@@ -6,7 +6,7 @@ import sys
 from tensorflow.keras.preprocessing.image import ImageDataGenerator, load_img, img_to_array
 
 # 生成枚数（１枚あたり）
-n_img = 50
+n_img = 100
 
 project_path = "."
 
