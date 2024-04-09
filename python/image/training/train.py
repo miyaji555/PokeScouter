@@ -15,9 +15,6 @@ train_datagen = ImageDataGenerator(
     validation_split=0.2  # 20%を検証用に分割
 )
 
-
-
-
 # トレーニングデータジェネレータ
 train_generator = train_datagen.flow_from_directory(
     directory='output',  # 画像ファイルのディレクトリを指定
