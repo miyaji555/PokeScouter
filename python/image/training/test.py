@@ -7,9 +7,9 @@ from tensorflow.keras.models import load_model
 # 学習済みモデルのロード
 model = load_model('object_detection_model.h5')
 
-poke_name = 'フシギダネ'
+poke_name = 'ピカチュウ'
 # テスト画像が格納されているディレクトリのパス
-directory_path = '/Users/miyasic/Project/flutter/PokeScouter/python/image/training/output/' + poke_name
+directory_path = '/Users/miyaji/AndroidStudioProjects/pokenote-v1/python/image/training/output/' + poke_name
 
 # 判定結果をカウントするための辞書
 class_counts = defaultdict(int)
