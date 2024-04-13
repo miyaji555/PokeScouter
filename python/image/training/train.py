@@ -3,6 +3,8 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.layers import Dense, Input,GlobalAveragePooling2D
 from tensorflow.keras.models import Model
+from tensorflow.keras.callbacks import ModelCheckpoint, CSVLogger  # CSVLoggerをインポート
+
 
 project_path = "."
 
@@ -56,12 +58,24 @@ model = Model(inputs=base_model.input, outputs=predictions)
 # モデルのコンパイル
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
+# CSVLoggerの設定
+csv_logger = CSVLogger('training_log.csv', append=True)
+
+# モデルチェックポイントの設定
+model_checkpoint = ModelCheckpoint(
+    'best_model.keras',
+    save_best_only=True,
+    monitor='val_accuracy',
+    mode='max'
+)
+
 # モデルのトレーニング
 model.fit(
     train_generator,
     epochs=3,
-    validation_data=validation_generator
+    validation_data=validation_generator,
+    callbacks=[csv_logger, model_checkpoint]
 )
-
 # モデルの保存
 model.save('object_detection_model.h5')
+

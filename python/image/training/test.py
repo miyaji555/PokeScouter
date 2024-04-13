@@ -5,11 +5,12 @@ from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
 
 # 学習済みモデルのロード
-model = load_model('object_detection_model.h5')
+model = load_model('best_model.keras')
 
-poke_name = 'ピカチュウ'
+
+poke_name = 'リザード'
 # テスト画像が格納されているディレクトリのパス
-directory_path = '/Users/miyaji/AndroidStudioProjects/pokenote-v1/python/image/training/output/' + poke_name
+directory_path = 'output/' + poke_name
 
 # 判定結果をカウントするための辞書
 class_counts = defaultdict(int)

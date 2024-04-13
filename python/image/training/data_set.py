@@ -21,7 +21,7 @@ def clear_directory(path):
 
 
 # 生成枚数（１枚あたり）
-n_img = 500
+n_img = 30
 
 project_path = "."
 
