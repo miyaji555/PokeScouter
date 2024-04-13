@@ -1,4 +1,6 @@
 import pandas as pd
+from util import clear_directory
+import os
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.layers import Dense, Input,GlobalAveragePooling2D
@@ -59,15 +61,22 @@ model = Model(inputs=base_model.input, outputs=predictions)
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 # CSVLoggerの設定
-csv_logger = CSVLogger('training_log.csv', append=True)
+csv_logger = CSVLogger('training_log.csv', append=False)
+
+# # 出力先パス
+output_folder_path = project_path + "/model"
+clear_directory(output_folder_path)
+if os.path.isdir(output_folder_path) == False:
+  os.mkdir(output_folder_path)
 
 # モデルチェックポイントの設定
 model_checkpoint = ModelCheckpoint(
-    'best_model.keras',
-    save_best_only=True,
+    output_folder_path + '/model_epoch_{epoch:02d}.keras',  # 各エポックの終了後に異なるファイル名で保存
+    save_best_only=False,  # すべてのエポックでモデルを保存
     monitor='val_accuracy',
     mode='max'
 )
+
 
 # モデルのトレーニング
 model.fit(
@@ -76,6 +85,5 @@ model.fit(
     validation_data=validation_generator,
     callbacks=[csv_logger, model_checkpoint]
 )
-# モデルの保存
-model.save('object_detection_model.h5')
+
 

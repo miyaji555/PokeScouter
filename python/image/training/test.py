@@ -5,7 +5,7 @@ from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
 
 # 学習済みモデルのロード
-model = load_model('best_model.keras')
+model = load_model('model/model_epoch_03.keras')
 
 
 poke_name = 'リザード'
