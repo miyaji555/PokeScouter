@@ -1,5 +1,5 @@
 import pandas as pd
-from util import clear_directory
+from util import clear_directory, create_recursive_dir
 import os
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.applications import MobileNetV2
@@ -11,7 +11,7 @@ from tensorflow.keras.callbacks import ModelCheckpoint, CSVLogger  # CSVLogger�
 project_path = "."
 
 # 生成元画像のパス
-input_folder_path = project_path + "/../output"
+input_folder_path = project_path + "/../output/image"
 
 # 画像データジェネレータの設定
 train_datagen = ImageDataGenerator(
@@ -21,7 +21,7 @@ train_datagen = ImageDataGenerator(
 
 # トレーニングデータジェネレータ
 train_generator = train_datagen.flow_from_directory(
-    directory='output',  # 画像ファイルのディレクトリを指定
+    directory='output/image',  # 画像ファイルのディレクトリを指定
     target_size=(224, 224),
     batch_size=32,
     class_mode='categorical',
@@ -31,15 +31,19 @@ train_generator = train_datagen.flow_from_directory(
 # クラスとラベルの対応表を取得
 class_indices = train_generator.class_indices
 
+output_log_dir = project_path + '/output/log'
+clear_directory(output_log_dir)
+create_recursive_dir(output_log_dir)
+
 # テキストファイルに出力
-with open('class_labels.txt', 'w') as file:
+with open(output_log_dir + '/class_labels.txt', 'w') as file:
     for class_name, index in class_indices.items():
         file.write(f'{class_name}: {index}\n')
 
 
 # 検証データジェネレータ
 validation_generator = train_datagen.flow_from_directory(
-    directory='output',  # 画像ファイルのディレクトリを指定
+    directory='output/image',  # 画像ファイルのディレクトリを指定
     target_size=(224, 224),
     batch_size=32,
     class_mode='categorical',
@@ -60,14 +64,14 @@ model = Model(inputs=base_model.input, outputs=predictions)
 # モデルのコンパイル
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
+
 # CSVLoggerの設定
-csv_logger = CSVLogger('training_log.csv', append=False)
+csv_logger = CSVLogger(output_log_dir + '/training_log.csv', append=False)
 
 # # 出力先パス
-output_folder_path = project_path + "/model"
+output_folder_path = project_path + "/output/model"
 clear_directory(output_folder_path)
-if os.path.isdir(output_folder_path) == False:
-  os.mkdir(output_folder_path)
+create_recursive_dir(output_folder_path)
 
 # モデルチェックポイントの設定
 model_checkpoint = ModelCheckpoint(

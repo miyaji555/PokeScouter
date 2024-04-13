@@ -1,10 +1,10 @@
-import os
 import numpy as np
+import os
 import glob
 import pandas as pd
 import sys
 from tensorflow.keras.preprocessing.image import ImageDataGenerator, load_img, img_to_array
-from util import clear_directory 
+from util import clear_directory , create_recursive_dir
 
 
 # 生成枚数（１枚あたり）
@@ -24,10 +24,9 @@ print(df)
 
 
 # # 出力先パス
-output_folder_path = project_path + "/output"
+output_folder_path = project_path + "/output/image"
 clear_directory(output_folder_path)
-if os.path.isdir(output_folder_path) == False:
-  os.mkdir(output_folder_path)
+create_recursive_dir(output_folder_path)
 
 for index, row in df.iterrows():
     file_name = row['filename']
@@ -38,8 +37,7 @@ for index, row in df.iterrows():
         output_path = os.path.join(output_folder_path, poke_name_value)
         print(index, file_name, output_path,input_path)
 
-        if not os.path.isdir(output_path):
-            os.mkdir(output_path)
+        create_recursive_dir(output_path)
 
         img = load_img(input_path)
         x = img_to_array(img)

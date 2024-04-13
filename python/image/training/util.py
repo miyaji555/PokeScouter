@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 def clear_directory(path):
     if os.path.exists(path):
@@ -12,3 +13,9 @@ def clear_directory(path):
                     shutil.rmtree(file_path)
             except Exception as e:
                 print(f'Failed to delete {file_path}. Reason: {e}')
+
+def create_recursive_dir(path):
+    # Path オブジェクトを作成
+    directory = Path(path)
+    # 親ディレクトリが存在しなければ再帰的に作成
+    directory.mkdir(parents=True, exist_ok=True)
