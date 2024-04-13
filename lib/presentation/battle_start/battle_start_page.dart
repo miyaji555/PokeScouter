@@ -1,3 +1,4 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 
 import 'package:badges/badges.dart' as badges;
@@ -90,7 +91,8 @@ class BattleStartPage extends HookConsumerWidget {
                 onPressed: pokemonListState.isEmpty
                     ? null
                     : () {
-                        context.push(kPagePathBattleSuggest);
+                        callHelloWorld();
+                        // context.push(kPagePathBattleSuggest);
                         primaryFocus?.unfocus();
                       },
                 child: const Text("過去の対戦"),
@@ -128,5 +130,17 @@ class BattleStartPage extends HookConsumerWidget {
         ),
       ],
     );
+  }
+
+  Future<void> callHelloWorld() async {
+    final FirebaseFunctions functions = FirebaseFunctions.instance;
+    try {
+      final HttpsCallable callable = functions.httpsCallable('helloWorld');
+      final results = await callable();
+      print('The function returned: ${results.data}');
+    } catch (e) {
+      print('Caught Firebase Functions Exception:');
+      print(e);
+    }
   }
 }

@@ -39,3 +39,7 @@ async function deleteCollection(
     await doc.delete();
   }
 }
+
+exports.helloWorld = functions.https.onCall((data, context) => {
+  return { message: "Hello, World!" };
+});
