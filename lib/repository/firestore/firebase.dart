@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:poke_scouter/constants/firestore.dart';
 import 'package:poke_scouter/domain/firebase/battle.dart';
 import 'package:poke_scouter/domain/firebase/party.dart';
@@ -81,10 +82,30 @@ class FirebaseRepository {
     return qs.data();
   }
 
+  // Future<List<Battle>> fetchBattles(String userId) async {
+  //   final qs =
+  //       await battlesRef(userId: userId).limit(kLimitFetchAllBattles).get();
+  //   return qs.docs.map((qds) => qds.data()).toList();
+  // }
+
   Future<List<Battle>> fetchBattles(String userId) async {
-    final qs =
-        await battlesRef(userId: userId).limit(kLimitFetchAllBattles).get();
-    return qs.docs.map((qds) => qds.data()).toList();
+    final functions = FirebaseFunctions.instance;
+    final callable = functions.httpsCallable('fetchBattles');
+    try {
+      final result = await callable.call(<String, dynamic>{'userId': userId});
+      print('The function returned: ${result.data}');
+
+      final List<Battle> battles = (result.data['battles'] as List)
+          .map(
+              (item) => Battle.fromJson(Map<String, dynamic>.from(item as Map)))
+          .toList();
+
+      return battles;
+    } catch (e) {
+      print('Caught Firebase Functions Exception:');
+      print(e);
+      return [];
+    }
   }
 
   Future<QuerySnapshot<Battle>> loadBattles(
