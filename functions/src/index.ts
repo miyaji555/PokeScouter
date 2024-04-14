@@ -1,5 +1,9 @@
 import * as functions from "firebase-functions";
 import * as firebaseAdmin from "firebase-admin";
+import { battle } from "./controller/battle";
+
+export { battle };
+
 
 firebaseAdmin.initializeApp(functions.config().firebase);
 
@@ -39,7 +43,3 @@ async function deleteCollection(
     await doc.delete();
   }
 }
-
-exports.helloWorld = functions.https.onCall((data, context) => {
-  return { message: "Hello, World!" };
-});

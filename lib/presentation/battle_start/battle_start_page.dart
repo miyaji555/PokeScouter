@@ -135,7 +135,7 @@ class BattleStartPage extends HookConsumerWidget {
   Future<void> callHelloWorld() async {
     final FirebaseFunctions functions = FirebaseFunctions.instance;
     try {
-      final HttpsCallable callable = functions.httpsCallable('helloWorld');
+      final HttpsCallable callable = functions.httpsCallable('battle');
       final results = await callable();
       print('The function returned: ${results.data}');
     } catch (e) {
