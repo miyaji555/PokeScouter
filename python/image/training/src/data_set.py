@@ -8,7 +8,7 @@ from util import clear_directory , create_recursive_dir
 
 
 # 生成枚数（１枚あたり）
-n_img = 30
+n_img = 200
 
 project_path = ".."
 
