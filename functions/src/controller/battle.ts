@@ -26,3 +26,68 @@ export const fetchBattles = functions.https.onCall(async (data, context) => {
         throw new functions.https.HttpsError("unknown", "Failed to fetch battles", error);
     }
 });
+
+const checkBattleParams = (data: any): string[] => {
+    console.log("params", data);
+    const requiredParams = ["userId", "partyId", "opponentParty", "myParty", "divisorList", "opponentOrder", "myOrder", "memo", "eachMemo", "result"];
+    return requiredParams.filter(param => {
+        const value = data[param];
+        // value が undefined または null なら欠けているとみなす。空文字、空配列は許容
+        return value == null; // `== null` は `value === undefined || value === null` と同等
+    });
+}
+
+export const setBattle = functions.https.onCall(async (data, context) => {
+    // 認証チェック
+    if (!context.auth) {
+        throw new functions.https.HttpsError("unauthenticated", "The function must be called while authenticated.");
+    }
+
+    // パラメータチェック
+    const missingParams = checkBattleParams(data);
+    if (missingParams.length > 0) {
+        throw new functions.https.HttpsError("invalid-argument", `Missing or invalid parameters: ${missingParams.join(", ")}`);
+    }
+    const userId = data.userId;
+    const partyId = data.partyId;
+    const opponentParty = data.opponentParty;
+    const myParty = data.myParty;
+    const divisorList = data.divisorList;
+    const opponentOrder = data.opponentOrder;
+    const myOrder = data.myOrder;
+    const memo = data.memo;
+    const eachMemo = data.eachMemo;
+    const result = data.result;
+
+    try {
+        const db = admin.firestore();
+        const battleDoc = db.collection(`user/${userId}/battle`).doc();
+
+        const battleData = {
+            userId,
+            partyId,
+            battleId: battleDoc.id,
+            opponentParty,
+            myParty,
+            divisorList6: divisorList[0],
+            divisorList5: divisorList[1],
+            divisorList4: divisorList[2],
+            divisorList3: divisorList[3],
+            divisorList2: divisorList[4],
+            divisorList1: divisorList[5],
+            opponentOrder,
+            myOrder,
+            memo,
+            eachMemo,
+            result,
+            createdAt: admin.firestore.FieldValue.serverTimestamp()
+        };
+
+        await battleDoc.set(battleData);
+        return { success: true };
+    } catch (error) {
+        console.error("Error writing battle:", error);
+        throw new functions.https.HttpsError("unknown", "Failed to set battle", error);
+    }
+});
+
