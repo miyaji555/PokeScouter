@@ -85,7 +85,7 @@ model_checkpoint = ModelCheckpoint(
 # モデルのトレーニング
 model.fit(
     train_generator,
-    epochs=3,
+    epochs=5,
     validation_data=validation_generator,
     callbacks=[csv_logger, model_checkpoint]
 )
