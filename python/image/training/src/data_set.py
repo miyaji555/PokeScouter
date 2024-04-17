@@ -8,7 +8,7 @@ from util import clear_directory , create_recursive_dir
 
 
 # 生成枚数（１枚あたり）
-n_img = 200
+n_img = 300
 
 project_path = ".."
 
@@ -44,10 +44,10 @@ for index, row in df.iterrows():
         x = np.expand_dims(x, axis=0)
 
         datagen = ImageDataGenerator(
-            rotation_range=30.0,
-            width_shift_range=0.2,  # 最大20%の幅で水平シフト
-            height_shift_range=0.2,  # 最大20%の高さで垂直シフト
-            shear_range=0.2,  # 画像を最大20%で歪ませる
+            rotation_range=45.0,
+            width_shift_range=0.25,  # 最大20%の幅で水平シフト
+            height_shift_range=0.25,  # 最大20%の高さで垂直シフト
+            shear_range=0.3,  # 画像を最大20%で歪ませる
         )
 
         # # 生成
