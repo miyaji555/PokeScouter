@@ -17,7 +17,7 @@ class EnvironmentConfig {
   }
 
   void setEnvironment() {
-    switch (const String.fromEnvironment('flavor')) {
+    switch (const String.fromEnvironment('FLAVOR')) {
       case flavorEmulator:
         _environment = Environment.emulator;
         break;

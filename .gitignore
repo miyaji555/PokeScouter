@@ -56,3 +56,5 @@ keyについて.txt
 
 
 python/venv
+ios/Flutter/DartDefines.xcconfig
+ios/Runner/GoogleService-Info.plist
