@@ -25,9 +25,7 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final env = EnvironmentConfig().environment;
   MobileAds.instance.initialize();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp();
   if (env == Environment.emulator) {
     FirebaseFirestore.instance
         .useFirestoreEmulator(localhost, portForFirestoreEmulator);
