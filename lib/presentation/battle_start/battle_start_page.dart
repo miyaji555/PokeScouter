@@ -1,3 +1,4 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 
 import 'package:badges/badges.dart' as badges;
@@ -11,6 +12,7 @@ import 'package:poke_scouter/presentation/Widget/tutorial_widget.dart';
 import 'package:poke_scouter/presentation/top/top_page_state.dart';
 import 'package:poke_scouter/providers/tutorial_provider.dart';
 import 'package:poke_scouter/repository/shared_preferences.dart';
+import 'package:poke_scouter/util/logger.dart';
 import 'package:poke_scouter/util/pokemon_suggest.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -90,6 +92,7 @@ class BattleStartPage extends HookConsumerWidget {
                 onPressed: pokemonListState.isEmpty
                     ? null
                     : () {
+                        callHelloWorld();
                         context.push(kPagePathBattleSuggest);
                         primaryFocus?.unfocus();
                       },
@@ -128,5 +131,16 @@ class BattleStartPage extends HookConsumerWidget {
         ),
       ],
     );
+  }
+
+  Future<void> callHelloWorld() async {
+    final FirebaseFunctions functions = FirebaseFunctions.instance;
+    try {
+      final HttpsCallable callable = functions.httpsCallable('battle');
+      final results = await callable();
+      logger.i('The function returned: ${results.data}');
+    } catch (e) {
+      logger.e('Caught Firebase Functions Exception:\n$e');
+    }
   }
 }
