@@ -12,6 +12,7 @@ import 'package:poke_scouter/presentation/Widget/tutorial_widget.dart';
 import 'package:poke_scouter/presentation/top/top_page_state.dart';
 import 'package:poke_scouter/providers/tutorial_provider.dart';
 import 'package:poke_scouter/repository/shared_preferences.dart';
+import 'package:poke_scouter/util/logger.dart';
 import 'package:poke_scouter/util/pokemon_suggest.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -92,7 +93,7 @@ class BattleStartPage extends HookConsumerWidget {
                     ? null
                     : () {
                         callHelloWorld();
-                        // context.push(kPagePathBattleSuggest);
+                        context.push(kPagePathBattleSuggest);
                         primaryFocus?.unfocus();
                       },
                 child: const Text("過去の対戦"),
@@ -137,10 +138,9 @@ class BattleStartPage extends HookConsumerWidget {
     try {
       final HttpsCallable callable = functions.httpsCallable('battle');
       final results = await callable();
-      print('The function returned: ${results.data}');
+      logger.i('The function returned: ${results.data}');
     } catch (e) {
-      print('Caught Firebase Functions Exception:');
-      print(e);
+      logger.e('Caught Firebase Functions Exception:\n$e');
     }
   }
 }
