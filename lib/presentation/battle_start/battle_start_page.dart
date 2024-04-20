@@ -92,7 +92,6 @@ class BattleStartPage extends HookConsumerWidget {
                 onPressed: pokemonListState.isEmpty
                     ? null
                     : () {
-                        callHelloWorld();
                         context.push(kPagePathBattleSuggest);
                         primaryFocus?.unfocus();
                       },

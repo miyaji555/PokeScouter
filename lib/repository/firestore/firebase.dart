@@ -125,11 +125,15 @@ class FirebaseRepository {
   //   return qs.docs.map((qds) => qds.data()).toList();
   // }
 
-  Future<List<Battle>> fetchBattles(String userId) async {
+  Future<List<Battle>> fetchBattles(
+      String userId, List<int> opponentPartyIds) async {
     final functions = FirebaseFunctions.instance;
     final callable = functions.httpsCallable('fetchBattles');
     try {
-      final result = await callable.call(<String, dynamic>{'userId': userId});
+      final result = await callable.call(<String, dynamic>{
+        'userId': userId,
+        'opponentPartyIds': opponentPartyIds
+      });
       print('The function returned: ${result.data}');
 
       final List<Battle> battles = (result.data['battles'] as List)

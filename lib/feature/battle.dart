@@ -9,24 +9,18 @@ import '../repository/firestore/firebase.dart';
 final battleSuggestFutureProvider =
     FutureProvider.autoDispose<List<BattleWithSimilarity>?>((ref) {
   final userId = ref.watch(authControllerProvider)?.uid;
-  final divisorList = ref
+  final pokemonIdList = ref
       .read(pokemonListProvider(kPageNameBattleStart).notifier)
-      .getPokemonDivisorList();
+      .getPokemonIdList();
   if (userId == null) {
     // 空のリストを返す
     return Future.value(<BattleWithSimilarity>[]);
   }
   return ref
       .read(firebaseRepositoryProvider)
-      .fetchBattles(userId)
+      .fetchBattles(userId, pokemonIdList)
       .then((battles) {
-    final battleWithSimilarity =
-        _generateBattleWithSimilarity(battles, divisorList);
-    final filteredBattleWithSimilarity =
-        _filterBattleWithSimilarity(battleWithSimilarity);
-    final sortedBattleWithSimilarity =
-        _sortBattleWithSimilarity(filteredBattleWithSimilarity);
-    return sortedBattleWithSimilarity;
+    return battles.map((e) => (battle: e, similarity: 0)).toList();
   });
 });
 

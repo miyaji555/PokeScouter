@@ -18,8 +18,13 @@ export const fetchBattles = functions.https.onCall(async (data, context) => {
         }
 
         const db = admin.firestore();
+        const opponentPartyIds = data.opponentPartyIds;
         const battlesRef = db.collection(`user/${userId}/battle`);
-        const snapshot = await battlesRef.limit(10).get();  // 例として10件に制限
+
+        const snapshot = await battlesRef.findNearest("embedding_field", FieldValue.vector(convertToVector(opponentPartyIds)), {
+            limit: 5,
+            distanceMeasure: "COSINE"
+        }).get();
 
         const battles = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         console.log("Fetched battles:", battles);

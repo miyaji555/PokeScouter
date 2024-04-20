@@ -52,7 +52,7 @@ class PokemonListState extends StateNotifier<List<Pokemon>> {
     return state.map((pokemon) => pokemon.name).toList();
   }
 
-  List<int> _getPokemonIdList() {
+  List<int> getPokemonIdList() {
     return state.map((pokemon) => int.parse(pokemon.number)).toList();
   }
 
@@ -135,7 +135,7 @@ class PokemonListState extends StateNotifier<List<Pokemon>> {
         memo: memo,
         eachMemo: {},
         result: result.toString(),
-        opponentPartyIds: _getPokemonIdList());
+        opponentPartyIds: getPokemonIdList());
 
     // 登録成功した場合の処理
     state = [];
