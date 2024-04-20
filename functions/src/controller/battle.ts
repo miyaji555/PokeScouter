@@ -40,6 +40,20 @@ const checkBattleParams = (data: any): string[] => {
     });
 }
 
+const convertToVector = (pokemonIds: number[]): number[] => {
+    // ポケモンの総数に基づく1025次元のベクトルを作成（初期値は0）
+    const vector: number[] = new Array(1025).fill(0);
+
+    // ポケモンIDの配列をループして、対応するインデックスの値を1に設定
+    pokemonIds.forEach(id => {
+        if (id >= 1 && id <= 1025) {
+            vector[id - 1] = 1;  // IDが1から始まるので、インデックスはid - 1とする
+        }
+    });
+
+    return vector;
+}
+
 export const setBattle = functions.https.onCall(async (data, context) => {
     // 認証チェック
     if (!context.auth) {
@@ -54,6 +68,7 @@ export const setBattle = functions.https.onCall(async (data, context) => {
     const userId = data.userId;
     const partyId = data.partyId;
     const opponentParty = data.opponentParty;
+    const opponentPartyIds = data.opponentPartyIds;
     const myParty = data.myParty;
     const divisorList = data.divisorList;
     const opponentOrder = data.opponentOrder;
@@ -61,6 +76,7 @@ export const setBattle = functions.https.onCall(async (data, context) => {
     const memo = data.memo;
     const eachMemo = data.eachMemo;
     const result = data.result;
+
 
     try {
         const db = admin.firestore();
@@ -84,7 +100,7 @@ export const setBattle = functions.https.onCall(async (data, context) => {
             eachMemo,
             result,
             createdAt: FieldValue.serverTimestamp(),
-            embedding_field: FieldValue.vector([1, 2, 3]),
+            embedding_field: FieldValue.vector(convertToVector(opponentPartyIds)),
         };
 
         await battleDoc.set(battleData);

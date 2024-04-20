@@ -70,17 +70,19 @@ class FirebaseRepository {
   //   await battleDoc.set(battle);
   // }
 
-  Future<void> setBattle(
-      {required String userId,
-      required String partyId,
-      required List<String> opponentParty,
-      required List<String> myParty,
-      required List<List<String>> divisorList,
-      required List<int> opponentOrder,
-      required List<int> myOrder,
-      required String memo,
-      required Map<String, String> eachMemo,
-      required String result}) async {
+  Future<void> setBattle({
+    required String userId,
+    required String partyId,
+    required List<String> opponentParty,
+    required List<String> myParty,
+    required List<List<String>> divisorList,
+    required List<int> opponentOrder,
+    required List<int> myOrder,
+    required String memo,
+    required Map<String, String> eachMemo,
+    required String result,
+    required List<int> opponentPartyIds,
+  }) async {
     final functions = FirebaseFunctions.instance;
     final callable = functions.httpsCallable('setBattle');
     try {
@@ -94,7 +96,8 @@ class FirebaseRepository {
         'myOrder': myOrder,
         'memo': memo,
         'eachMemo': eachMemo,
-        'result': result
+        'result': result,
+        'opponentPartyIds': opponentPartyIds,
       });
       print('Function returned: ${response.data}');
     } catch (e) {
