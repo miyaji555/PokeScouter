@@ -1,5 +1,8 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
+import {
+    FieldValue,
+} from "@google-cloud/firestore";
 
 export const fetchBattles = functions.https.onCall(async (data, context) => {
     console.log("fetchBattles called with data:");
@@ -80,7 +83,8 @@ export const setBattle = functions.https.onCall(async (data, context) => {
             memo,
             eachMemo,
             result,
-            createdAt: admin.firestore.FieldValue.serverTimestamp()
+            createdAt: FieldValue.serverTimestamp(),
+            embedding_field: FieldValue.vector([1, 2, 3]),
         };
 
         await battleDoc.set(battleData);
