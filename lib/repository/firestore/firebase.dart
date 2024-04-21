@@ -132,7 +132,6 @@ class FirebaseRepository {
         'userId': userId,
         'opponentPartyIds': opponentPartyIds
       });
-      print('The function returned: ${result.data}');
 
       final List<Battle> battles = (result.data['battles'] as List)
           .map(

@@ -3,25 +3,25 @@ import * as admin from "firebase-admin";
 import { FieldValue } from "@google-cloud/firestore";
 
 export const fetchBattles = functions.https.onCall(async (data, context) => {
-    console.log("fetchBattles called with data:");
     // 認証チェック
     if (!context.auth) {
         throw new functions.https.HttpsError("unauthenticated", "The function must be called while authenticated.");
     }
 
     try {
-        const userId = data.userId;
-        if (!userId) {
-            throw new functions.https.HttpsError("invalid-argument", "The function must be called with one argument \"userId\".");
+
+        // パラメータチェック
+        const missingParams = checkFetchBattlesParams(data);
+        if (missingParams.length > 0) {
+            throw new functions.https.HttpsError("invalid-argument", `Missing or invalid parameters: ${missingParams.join(", ")}`);
         }
 
         const db = admin.firestore();
-        const opponentPartyIds = data.opponentPartyIds;
-        const battlesRef = db.collection(`user/${userId}/battle`);
+        const battlesRef = db.collection(`user/${data.userId}/battle`);
 
-        const snapshot = await battlesRef.findNearest("embedding_field", FieldValue.vector(convertToVector(opponentPartyIds)), {
+        const snapshot = await battlesRef.startAt().findNearest("embedding_field", FieldValue.vector(convertToVector(data.opponentPartyIds)), {
             limit: 10,
-            distanceMeasure: "COSINE"
+            distanceMeasure: "DOT_PRODUCT"
         }).get();
 
         const battles = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -33,6 +33,15 @@ export const fetchBattles = functions.https.onCall(async (data, context) => {
     }
 });
 
+const checkFetchBattlesParams = (data: any): string[] => {
+    console.log("params", data);
+    const requiredParams = ["userId", "opponentPartyIds"];
+    return requiredParams.filter(param => {
+        const value = data[param];
+        // value が undefined または null なら欠けているとみなす。空文字、空配列は許容
+        return value == null; // `== null` は `value === undefined || value === null` と同等
+    });
+}
 const checkBattleParams = (data: any): string[] => {
     console.log("params", data);
     const requiredParams = ["userId", "partyId", "opponentParty", "myParty", "opponentOrder", "myOrder", "memo", "eachMemo", "result"];
