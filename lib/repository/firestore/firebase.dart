@@ -5,6 +5,7 @@ import 'package:poke_scouter/domain/firebase/battle.dart';
 import 'package:poke_scouter/domain/firebase/party.dart';
 import 'package:poke_scouter/repository/firestore/refs.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:poke_scouter/util/logger.dart';
 
 final firebaseRepositoryProvider =
     Provider<FirebaseRepository>((ref) => FirebaseRepository());
@@ -37,39 +38,6 @@ class FirebaseRepository {
     return partyDoc.id;
   }
 
-  // Future setBattle(
-  //     {required String userId,
-  //     required String partyId,
-  //     required List<String> opponentParty,
-  //     required List<String> myParty,
-  //     required List<List<String>> divisorList,
-  //     required List<int> opponentOrder,
-  //     required List<int> myOrder,
-  //     required String memo,
-  //     required Map<String, String> eachMemo,
-  //     required String result}) async {
-  //   final battleDoc = battlesRef(userId: userId).doc();
-
-  //   final battle = Battle(
-  //       userId: userId,
-  //       partyId: partyId,
-  //       battleId: battleDoc.id,
-  //       opponentParty: opponentParty,
-  //       myParty: myParty,
-  //       divisorList6: divisorList[0],
-  //       divisorList5: divisorList[1],
-  //       divisorList4: divisorList[2],
-  //       divisorList3: divisorList[3],
-  //       divisorList2: divisorList[4],
-  //       divisorList1: divisorList[5],
-  //       opponentOrder: opponentOrder,
-  //       myOrder: myOrder,
-  //       memo: memo,
-  //       eachMemo: eachMemo,
-  //       result: result);
-  //   await battleDoc.set(battle);
-  // }
-
   Future<void> setBattle({
     required String userId,
     required String partyId,
@@ -97,10 +65,10 @@ class FirebaseRepository {
         'result': result,
         'opponentPartyIds': opponentPartyIds,
       });
-      print('Function returned: ${response.data}');
+      logger.i('Function returned: ${response.data}');
     } catch (e) {
-      print('Caught Firebase Functions Exception:');
-      print(e);
+      logger.i('Caught Firebase Functions Exception:');
+      logger.i(e);
     }
   }
 
@@ -116,12 +84,6 @@ class FirebaseRepository {
     final qs = await partyRef(userId: userId, partyId: partyId).get();
     return qs.data();
   }
-
-  // Future<List<Battle>> fetchBattles(String userId) async {
-  //   final qs =
-  //       await battlesRef(userId: userId).limit(kLimitFetchAllBattles).get();
-  //   return qs.docs.map((qds) => qds.data()).toList();
-  // }
 
   Future<List<Battle>> fetchBattles(
       String userId, List<int> opponentPartyIds) async {
@@ -140,8 +102,8 @@ class FirebaseRepository {
 
       return battles;
     } catch (e) {
-      print('Caught Firebase Functions Exception:');
-      print(e);
+      logger.i('Caught Firebase Functions Exception:');
+      logger.i(e);
       return [];
     }
   }
