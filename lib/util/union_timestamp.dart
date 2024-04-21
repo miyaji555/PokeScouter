@@ -20,8 +20,24 @@ class _UnionTimestampConverter
 
   @override
   UnionTimestamp fromJson(Object json) {
-    final timestamp = json as Timestamp;
-    return UnionTimestamp.dateTime(timestamp.toDate());
+    final DateTime dateTime = switch (json) {
+      Timestamp() => json.toDate(),
+      Map() => _fromFunctionsTimestamp(json),
+      _ => throw Exception('Unsupported type for Timestamp conversion'),
+    };
+    return UnionTimestamp.dateTime(dateTime);
+  }
+
+  DateTime _fromFunctionsTimestamp(Map json) {
+    if (json.containsKey('_seconds') && json.containsKey('_nanoseconds')) {
+      // Timestampの構成要素からDateTimeを計算
+      final seconds = json['_seconds'] as int;
+      final nanoseconds = json['_nanoseconds'] as int;
+      return DateTime.fromMillisecondsSinceEpoch(seconds * 1000)
+          .add(Duration(microseconds: nanoseconds ~/ 1000));
+    } else {
+      throw Exception('Invalid map data for Timestamp conversion');
+    }
   }
 
   @override

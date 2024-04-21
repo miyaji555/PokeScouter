@@ -1,8 +1,8 @@
 import * as functions from "firebase-functions";
 import * as firebaseAdmin from "firebase-admin";
-import { battle } from "./controller/battle";
+import { fetchBattles, setBattle } from "./controller/battle";
 
-export { battle };
+export { fetchBattles, setBattle };
 
 
 firebaseAdmin.initializeApp(functions.config().firebase);

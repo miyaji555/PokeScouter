@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "pokescoutor"
+    "prod": "pokescoutor",
+    "dev": "pokescouter-dev"
   }
 }

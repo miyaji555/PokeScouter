@@ -44,23 +44,24 @@ class FirebaseRepositoryMock implements FirebaseRepository {
   }
 
   @override
-  Future setBattle(
-      {required String userId,
-      required String partyId,
-      required List<String> opponentParty,
-      required List<String> myParty,
-      required List<List<String>> divisorList,
-      required List<int> opponentOrder,
-      required List<int> myOrder,
-      required String memo,
-      required Map<String, String> eachMemo,
-      required String result}) {
+  Future setBattle({
+    required String userId,
+    required String partyId,
+    required List<String> opponentParty,
+    required List<String> myParty,
+    required List<int> opponentOrder,
+    required List<int> myOrder,
+    required String memo,
+    required Map<String, String> eachMemo,
+    required String result,
+    required List<int> opponentPartyIds,
+  }) {
     // TODO: implement setBattle
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Battle>> fetchBattles(String userId) {
+  Future<List<Battle>> fetchBattles(String userId, List<int> opponentPartyIds) {
     // TODO: implement fetchBattles
     throw UnimplementedError();
   }

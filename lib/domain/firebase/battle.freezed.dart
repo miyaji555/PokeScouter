@@ -12,7 +12,7 @@ part of 'battle.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Battle _$BattleFromJson(Map<String, dynamic> json) {
   return _Battle.fromJson(json);
@@ -25,12 +25,6 @@ mixin _$Battle {
   String get partyId => throw _privateConstructorUsedError;
   List<String> get opponentParty => throw _privateConstructorUsedError;
   List<String> get myParty => throw _privateConstructorUsedError;
-  List<String> get divisorList6 => throw _privateConstructorUsedError;
-  List<String> get divisorList5 => throw _privateConstructorUsedError;
-  List<String> get divisorList4 => throw _privateConstructorUsedError;
-  List<String> get divisorList3 => throw _privateConstructorUsedError;
-  List<String> get divisorList2 => throw _privateConstructorUsedError;
-  List<String> get divisorList1 => throw _privateConstructorUsedError;
   List<int> get opponentOrder => throw _privateConstructorUsedError;
   List<int> get myOrder => throw _privateConstructorUsedError;
   String get memo => throw _privateConstructorUsedError;
@@ -55,12 +49,6 @@ abstract class $BattleCopyWith<$Res> {
       String partyId,
       List<String> opponentParty,
       List<String> myParty,
-      List<String> divisorList6,
-      List<String> divisorList5,
-      List<String> divisorList4,
-      List<String> divisorList3,
-      List<String> divisorList2,
-      List<String> divisorList1,
       List<int> opponentOrder,
       List<int> myOrder,
       String memo,
@@ -90,12 +78,6 @@ class _$BattleCopyWithImpl<$Res, $Val extends Battle>
     Object? partyId = null,
     Object? opponentParty = null,
     Object? myParty = null,
-    Object? divisorList6 = null,
-    Object? divisorList5 = null,
-    Object? divisorList4 = null,
-    Object? divisorList3 = null,
-    Object? divisorList2 = null,
-    Object? divisorList1 = null,
     Object? opponentOrder = null,
     Object? myOrder = null,
     Object? memo = null,
@@ -123,30 +105,6 @@ class _$BattleCopyWithImpl<$Res, $Val extends Battle>
       myParty: null == myParty
           ? _value.myParty
           : myParty // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      divisorList6: null == divisorList6
-          ? _value.divisorList6
-          : divisorList6 // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      divisorList5: null == divisorList5
-          ? _value.divisorList5
-          : divisorList5 // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      divisorList4: null == divisorList4
-          ? _value.divisorList4
-          : divisorList4 // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      divisorList3: null == divisorList3
-          ? _value.divisorList3
-          : divisorList3 // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      divisorList2: null == divisorList2
-          ? _value.divisorList2
-          : divisorList2 // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      divisorList1: null == divisorList1
-          ? _value.divisorList1
-          : divisorList1 // ignore: cast_nullable_to_non_nullable
               as List<String>,
       opponentOrder: null == opponentOrder
           ? _value.opponentOrder
@@ -185,9 +143,10 @@ class _$BattleCopyWithImpl<$Res, $Val extends Battle>
 }
 
 /// @nodoc
-abstract class _$$_BattleCopyWith<$Res> implements $BattleCopyWith<$Res> {
-  factory _$$_BattleCopyWith(_$_Battle value, $Res Function(_$_Battle) then) =
-      __$$_BattleCopyWithImpl<$Res>;
+abstract class _$$BattleImplCopyWith<$Res> implements $BattleCopyWith<$Res> {
+  factory _$$BattleImplCopyWith(
+          _$BattleImpl value, $Res Function(_$BattleImpl) then) =
+      __$$BattleImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -196,12 +155,6 @@ abstract class _$$_BattleCopyWith<$Res> implements $BattleCopyWith<$Res> {
       String partyId,
       List<String> opponentParty,
       List<String> myParty,
-      List<String> divisorList6,
-      List<String> divisorList5,
-      List<String> divisorList4,
-      List<String> divisorList3,
-      List<String> divisorList2,
-      List<String> divisorList1,
       List<int> opponentOrder,
       List<int> myOrder,
       String memo,
@@ -215,10 +168,11 @@ abstract class _$$_BattleCopyWith<$Res> implements $BattleCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_BattleCopyWithImpl<$Res>
-    extends _$BattleCopyWithImpl<$Res, _$_Battle>
-    implements _$$_BattleCopyWith<$Res> {
-  __$$_BattleCopyWithImpl(_$_Battle _value, $Res Function(_$_Battle) _then)
+class __$$BattleImplCopyWithImpl<$Res>
+    extends _$BattleCopyWithImpl<$Res, _$BattleImpl>
+    implements _$$BattleImplCopyWith<$Res> {
+  __$$BattleImplCopyWithImpl(
+      _$BattleImpl _value, $Res Function(_$BattleImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -229,12 +183,6 @@ class __$$_BattleCopyWithImpl<$Res>
     Object? partyId = null,
     Object? opponentParty = null,
     Object? myParty = null,
-    Object? divisorList6 = null,
-    Object? divisorList5 = null,
-    Object? divisorList4 = null,
-    Object? divisorList3 = null,
-    Object? divisorList2 = null,
-    Object? divisorList1 = null,
     Object? opponentOrder = null,
     Object? myOrder = null,
     Object? memo = null,
@@ -242,7 +190,7 @@ class __$$_BattleCopyWithImpl<$Res>
     Object? result = null,
     Object? createdAt = null,
   }) {
-    return _then(_$_Battle(
+    return _then(_$BattleImpl(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -262,30 +210,6 @@ class __$$_BattleCopyWithImpl<$Res>
       myParty: null == myParty
           ? _value._myParty
           : myParty // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      divisorList6: null == divisorList6
-          ? _value._divisorList6
-          : divisorList6 // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      divisorList5: null == divisorList5
-          ? _value._divisorList5
-          : divisorList5 // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      divisorList4: null == divisorList4
-          ? _value._divisorList4
-          : divisorList4 // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      divisorList3: null == divisorList3
-          ? _value._divisorList3
-          : divisorList3 // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      divisorList2: null == divisorList2
-          ? _value._divisorList2
-          : divisorList2 // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      divisorList1: null == divisorList1
-          ? _value._divisorList1
-          : divisorList1 // ignore: cast_nullable_to_non_nullable
               as List<String>,
       opponentOrder: null == opponentOrder
           ? _value._opponentOrder
@@ -317,19 +241,13 @@ class __$$_BattleCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Battle with DiagnosticableTreeMixin implements _Battle {
-  const _$_Battle(
+class _$BattleImpl with DiagnosticableTreeMixin implements _Battle {
+  const _$BattleImpl(
       {required this.userId,
       required this.battleId,
       required this.partyId,
       required final List<String> opponentParty,
       required final List<String> myParty,
-      required final List<String> divisorList6,
-      required final List<String> divisorList5,
-      required final List<String> divisorList4,
-      required final List<String> divisorList3,
-      required final List<String> divisorList2,
-      required final List<String> divisorList1,
       required final List<int> opponentOrder,
       required final List<int> myOrder,
       required this.memo,
@@ -339,18 +257,12 @@ class _$_Battle with DiagnosticableTreeMixin implements _Battle {
       this.createdAt = const UnionTimestamp.serverTimestamp()})
       : _opponentParty = opponentParty,
         _myParty = myParty,
-        _divisorList6 = divisorList6,
-        _divisorList5 = divisorList5,
-        _divisorList4 = divisorList4,
-        _divisorList3 = divisorList3,
-        _divisorList2 = divisorList2,
-        _divisorList1 = divisorList1,
         _opponentOrder = opponentOrder,
         _myOrder = myOrder,
         _eachMemo = eachMemo;
 
-  factory _$_Battle.fromJson(Map<String, dynamic> json) =>
-      _$$_BattleFromJson(json);
+  factory _$BattleImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BattleImplFromJson(json);
 
   @override
   final String userId;
@@ -372,54 +284,6 @@ class _$_Battle with DiagnosticableTreeMixin implements _Battle {
     if (_myParty is EqualUnmodifiableListView) return _myParty;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_myParty);
-  }
-
-  final List<String> _divisorList6;
-  @override
-  List<String> get divisorList6 {
-    if (_divisorList6 is EqualUnmodifiableListView) return _divisorList6;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_divisorList6);
-  }
-
-  final List<String> _divisorList5;
-  @override
-  List<String> get divisorList5 {
-    if (_divisorList5 is EqualUnmodifiableListView) return _divisorList5;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_divisorList5);
-  }
-
-  final List<String> _divisorList4;
-  @override
-  List<String> get divisorList4 {
-    if (_divisorList4 is EqualUnmodifiableListView) return _divisorList4;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_divisorList4);
-  }
-
-  final List<String> _divisorList3;
-  @override
-  List<String> get divisorList3 {
-    if (_divisorList3 is EqualUnmodifiableListView) return _divisorList3;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_divisorList3);
-  }
-
-  final List<String> _divisorList2;
-  @override
-  List<String> get divisorList2 {
-    if (_divisorList2 is EqualUnmodifiableListView) return _divisorList2;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_divisorList2);
-  }
-
-  final List<String> _divisorList1;
-  @override
-  List<String> get divisorList1 {
-    if (_divisorList1 is EqualUnmodifiableListView) return _divisorList1;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_divisorList1);
   }
 
   final List<int> _opponentOrder;
@@ -457,7 +321,7 @@ class _$_Battle with DiagnosticableTreeMixin implements _Battle {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Battle(userId: $userId, battleId: $battleId, partyId: $partyId, opponentParty: $opponentParty, myParty: $myParty, divisorList6: $divisorList6, divisorList5: $divisorList5, divisorList4: $divisorList4, divisorList3: $divisorList3, divisorList2: $divisorList2, divisorList1: $divisorList1, opponentOrder: $opponentOrder, myOrder: $myOrder, memo: $memo, eachMemo: $eachMemo, result: $result, createdAt: $createdAt)';
+    return 'Battle(userId: $userId, battleId: $battleId, partyId: $partyId, opponentParty: $opponentParty, myParty: $myParty, opponentOrder: $opponentOrder, myOrder: $myOrder, memo: $memo, eachMemo: $eachMemo, result: $result, createdAt: $createdAt)';
   }
 
   @override
@@ -470,12 +334,6 @@ class _$_Battle with DiagnosticableTreeMixin implements _Battle {
       ..add(DiagnosticsProperty('partyId', partyId))
       ..add(DiagnosticsProperty('opponentParty', opponentParty))
       ..add(DiagnosticsProperty('myParty', myParty))
-      ..add(DiagnosticsProperty('divisorList6', divisorList6))
-      ..add(DiagnosticsProperty('divisorList5', divisorList5))
-      ..add(DiagnosticsProperty('divisorList4', divisorList4))
-      ..add(DiagnosticsProperty('divisorList3', divisorList3))
-      ..add(DiagnosticsProperty('divisorList2', divisorList2))
-      ..add(DiagnosticsProperty('divisorList1', divisorList1))
       ..add(DiagnosticsProperty('opponentOrder', opponentOrder))
       ..add(DiagnosticsProperty('myOrder', myOrder))
       ..add(DiagnosticsProperty('memo', memo))
@@ -485,10 +343,10 @@ class _$_Battle with DiagnosticableTreeMixin implements _Battle {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Battle &&
+            other is _$BattleImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.battleId, battleId) ||
                 other.battleId == battleId) &&
@@ -496,18 +354,6 @@ class _$_Battle with DiagnosticableTreeMixin implements _Battle {
             const DeepCollectionEquality()
                 .equals(other._opponentParty, _opponentParty) &&
             const DeepCollectionEquality().equals(other._myParty, _myParty) &&
-            const DeepCollectionEquality()
-                .equals(other._divisorList6, _divisorList6) &&
-            const DeepCollectionEquality()
-                .equals(other._divisorList5, _divisorList5) &&
-            const DeepCollectionEquality()
-                .equals(other._divisorList4, _divisorList4) &&
-            const DeepCollectionEquality()
-                .equals(other._divisorList3, _divisorList3) &&
-            const DeepCollectionEquality()
-                .equals(other._divisorList2, _divisorList2) &&
-            const DeepCollectionEquality()
-                .equals(other._divisorList1, _divisorList1) &&
             const DeepCollectionEquality()
                 .equals(other._opponentOrder, _opponentOrder) &&
             const DeepCollectionEquality().equals(other._myOrder, _myOrder) &&
@@ -527,12 +373,6 @@ class _$_Battle with DiagnosticableTreeMixin implements _Battle {
       partyId,
       const DeepCollectionEquality().hash(_opponentParty),
       const DeepCollectionEquality().hash(_myParty),
-      const DeepCollectionEquality().hash(_divisorList6),
-      const DeepCollectionEquality().hash(_divisorList5),
-      const DeepCollectionEquality().hash(_divisorList4),
-      const DeepCollectionEquality().hash(_divisorList3),
-      const DeepCollectionEquality().hash(_divisorList2),
-      const DeepCollectionEquality().hash(_divisorList1),
       const DeepCollectionEquality().hash(_opponentOrder),
       const DeepCollectionEquality().hash(_myOrder),
       memo,
@@ -543,12 +383,12 @@ class _$_Battle with DiagnosticableTreeMixin implements _Battle {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BattleCopyWith<_$_Battle> get copyWith =>
-      __$$_BattleCopyWithImpl<_$_Battle>(this, _$identity);
+  _$$BattleImplCopyWith<_$BattleImpl> get copyWith =>
+      __$$BattleImplCopyWithImpl<_$BattleImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BattleToJson(
+    return _$$BattleImplToJson(
       this,
     );
   }
@@ -561,21 +401,15 @@ abstract class _Battle implements Battle {
       required final String partyId,
       required final List<String> opponentParty,
       required final List<String> myParty,
-      required final List<String> divisorList6,
-      required final List<String> divisorList5,
-      required final List<String> divisorList4,
-      required final List<String> divisorList3,
-      required final List<String> divisorList2,
-      required final List<String> divisorList1,
       required final List<int> opponentOrder,
       required final List<int> myOrder,
       required final String memo,
       required final Map<String, String> eachMemo,
       required final String result,
       @alwaysUseServerTimestampUnionTimestampConverter
-      final UnionTimestamp createdAt}) = _$_Battle;
+      final UnionTimestamp createdAt}) = _$BattleImpl;
 
-  factory _Battle.fromJson(Map<String, dynamic> json) = _$_Battle.fromJson;
+  factory _Battle.fromJson(Map<String, dynamic> json) = _$BattleImpl.fromJson;
 
   @override
   String get userId;
@@ -587,18 +421,6 @@ abstract class _Battle implements Battle {
   List<String> get opponentParty;
   @override
   List<String> get myParty;
-  @override
-  List<String> get divisorList6;
-  @override
-  List<String> get divisorList5;
-  @override
-  List<String> get divisorList4;
-  @override
-  List<String> get divisorList3;
-  @override
-  List<String> get divisorList2;
-  @override
-  List<String> get divisorList1;
   @override
   List<int> get opponentOrder;
   @override
@@ -614,6 +436,6 @@ abstract class _Battle implements Battle {
   UnionTimestamp get createdAt;
   @override
   @JsonKey(ignore: true)
-  _$$_BattleCopyWith<_$_Battle> get copyWith =>
+  _$$BattleImplCopyWith<_$BattleImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -52,6 +52,10 @@ class PokemonListState extends StateNotifier<List<Pokemon>> {
     return state.map((pokemon) => pokemon.name).toList();
   }
 
+  List<int> getPokemonIdList() {
+    return state.map((pokemon) => int.parse(pokemon.number)).toList();
+  }
+
   List<List<String>> getPokemonDivisorList() {
     final primeNumbers =
         state.map((pokemon) => BigInt.parse(pokemon.primeNumber)).toList();
@@ -125,12 +129,12 @@ class PokemonListState extends StateNotifier<List<Pokemon>> {
         partyId: partyId,
         opponentParty: _getPokemonNameList(),
         myParty: myPartyNameList,
-        divisorList: getPokemonDivisorList(),
         opponentOrder: opponentOrder,
         myOrder: myOrder,
         memo: memo,
         eachMemo: {},
-        result: result.toString());
+        result: result.toString(),
+        opponentPartyIds: getPokemonIdList());
 
     // 登録成功した場合の処理
     state = [];
