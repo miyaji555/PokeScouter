@@ -1,8 +1,6 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-import {
-    FieldValue,
-} from "@google-cloud/firestore";
+import { FieldValue } from "@google-cloud/firestore";
 
 export const fetchBattles = functions.https.onCall(async (data, context) => {
     console.log("fetchBattles called with data:");
@@ -22,7 +20,7 @@ export const fetchBattles = functions.https.onCall(async (data, context) => {
         const battlesRef = db.collection(`user/${userId}/battle`);
 
         const snapshot = await battlesRef.findNearest("embedding_field", FieldValue.vector(convertToVector(opponentPartyIds)), {
-            limit: 5,
+            limit: 10,
             distanceMeasure: "COSINE"
         }).get();
 
@@ -37,7 +35,7 @@ export const fetchBattles = functions.https.onCall(async (data, context) => {
 
 const checkBattleParams = (data: any): string[] => {
     console.log("params", data);
-    const requiredParams = ["userId", "partyId", "opponentParty", "myParty", "divisorList", "opponentOrder", "myOrder", "memo", "eachMemo", "result"];
+    const requiredParams = ["userId", "partyId", "opponentParty", "myParty", "opponentOrder", "myOrder", "memo", "eachMemo", "result"];
     return requiredParams.filter(param => {
         const value = data[param];
         // value が undefined または null なら欠けているとみなす。空文字、空配列は許容
@@ -61,7 +59,7 @@ const convertToVector = (pokemonIds: number[]): number[] => {
 
 export const setBattle = functions.https.onCall(async (data, context) => {
     // 認証チェック
-    if (!context.auth) {
+    if (!context.auth || context.auth.uid !== data.userId) {
         throw new functions.https.HttpsError("unauthenticated", "The function must be called while authenticated.");
     }
 
@@ -70,18 +68,9 @@ export const setBattle = functions.https.onCall(async (data, context) => {
     if (missingParams.length > 0) {
         throw new functions.https.HttpsError("invalid-argument", `Missing or invalid parameters: ${missingParams.join(", ")}`);
     }
-    const userId = data.userId;
-    const partyId = data.partyId;
-    const opponentParty = data.opponentParty;
-    const opponentPartyIds = data.opponentPartyIds;
-    const myParty = data.myParty;
-    const divisorList = data.divisorList;
-    const opponentOrder = data.opponentOrder;
-    const myOrder = data.myOrder;
-    const memo = data.memo;
-    const eachMemo = data.eachMemo;
-    const result = data.result;
 
+    const userId = data.userId;
+    const opponentPartyIds = data.opponentPartyIds;
 
     try {
         const db = admin.firestore();
@@ -89,21 +78,15 @@ export const setBattle = functions.https.onCall(async (data, context) => {
 
         const battleData = {
             userId,
-            partyId,
+            partyId: data.partyId,
             battleId: battleDoc.id,
-            opponentParty,
-            myParty,
-            divisorList6: divisorList[0],
-            divisorList5: divisorList[1],
-            divisorList4: divisorList[2],
-            divisorList3: divisorList[3],
-            divisorList2: divisorList[4],
-            divisorList1: divisorList[5],
-            opponentOrder,
-            myOrder,
-            memo,
-            eachMemo,
-            result,
+            opponentParty: data.opponentParty,
+            myParty: data.myParty,
+            opponentOrder: data.opponentOrder,
+            myOrder: data.myOrder,
+            memo: data.memo,
+            eachMemo: data.eachMemo,
+            result: data.result,
             createdAt: FieldValue.serverTimestamp(),
             embedding_field: FieldValue.vector(convertToVector(opponentPartyIds)),
         };

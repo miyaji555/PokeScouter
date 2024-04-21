@@ -129,7 +129,6 @@ class PokemonListState extends StateNotifier<List<Pokemon>> {
         partyId: partyId,
         opponentParty: _getPokemonNameList(),
         myParty: myPartyNameList,
-        divisorList: getPokemonDivisorList(),
         opponentOrder: opponentOrder,
         myOrder: myOrder,
         memo: memo,
