@@ -7,8 +7,8 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator, load_img, i
 from util import clear_directory , create_recursive_dir
 
 
-# 生成枚数（１枚あたり）
-n_img = 300
+# 生成枚数（１枚あたり
+n_img = 200
 
 project_path = ".."
 
