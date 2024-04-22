@@ -27,7 +27,7 @@ dependencies:
   trotter: ^2.0.0
   shared_preferences: ^2.0.16
   flutter_launcher_icons: ^0.11.0
-  package_info_plus: ^4.0.2
+  package_info_plus: ^7.0.0
   flutter_native_splash: ^2.2.16
 
   firebase_remote_config: ^4.2.2
