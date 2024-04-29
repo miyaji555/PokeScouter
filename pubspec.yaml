@@ -30,7 +30,7 @@ dependencies:
   package_info_plus: ^4.0.2
   flutter_native_splash: ^2.2.16
 
-  firebase_remote_config: ^4.2.2
+  firebase_remote_config: ^4.4.4
   cloud_functions: ^4.3.2
   firebase_core: ^2.13.1
   cloud_firestore: ^4.8.0
