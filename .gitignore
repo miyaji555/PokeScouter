@@ -59,3 +59,4 @@ python/venv
 python/image/training/output/image
 ios/Flutter/DartDefines.xcconfig
 ios/Runner/GoogleService-Info.plist
+python/image/training/image_classification/output/image
