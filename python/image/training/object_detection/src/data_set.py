@@ -25,38 +25,50 @@ df = pd.read_csv(spreadsheet_path)
 # ファイル名とポケモン名の辞書を作成
 pokemon_names = pd.Series(df.poke_name.values, index=df.filename).to_dict()
 
+def is_overlapping(box1, box2):
+    # 各ボックスは(xmin, ymin, xmax, ymax)形式
+    return not (box1[2] < box2[0] or box1[0] > box2[2] or box1[3] < box2[1] or box1[1] > box2[3])
+
+def get_non_overlapping_box(background_size, existing_boxes, icon_size, max_attempts=50):
+    for _ in range(max_attempts):
+        x = random.randint(0, background_size[0] - icon_size[0])
+        y = random.randint(0, background_size[1] - icon_size[1])
+        new_box = (x, y, x + icon_size[0], y + icon_size[1])
+        if all(not is_overlapping(new_box, box) for box in existing_boxes):
+            return new_box
+    return None  # 適切なボックスが見つからない場合はNoneを返す
+
 def create_image_with_pokemons(background_size, pokemon_files, num_pokemons=6, image_index=0):
-    # 白い背景画像の作成
     background = Image.new('RGB', background_size, (255, 255, 255))
     annotations = []
+    existing_boxes = []
 
     for _ in range(num_pokemons):
-        # ランダムにポケモンを選択
         pokemon_file = random.choice(pokemon_files)
         pokemon_icon = Image.open(input_folder_path + '/' + pokemon_file)
-        pokemon_name = pokemon_names[pokemon_file]  # ポケモンの名前を取得
+        pokemon_name = pokemon_names[pokemon_file]
 
-        # ポケモンのアルファチャンネルをマスクとして使用
-        if pokemon_icon.mode == 'RGBA':
-            mask = pokemon_icon.split()[3]
+        icon_size = (pokemon_icon.width, pokemon_icon.height)
+        max_attempts = 50
+        box = get_non_overlapping_box(background_size, existing_boxes, icon_size, max_attempts)
+
+        if box is not None:
+            xmin, ymin, xmax, ymax = box
+            background.paste(pokemon_icon, (xmin, ymin), pokemon_icon if pokemon_icon.mode == 'RGBA' else None)
+            existing_boxes.append((xmin, ymin, xmax, ymax))
+            annotations.append({
+                'filename': f'image_{image_index}.png',
+                'xmin': xmin,
+                'ymin': ymin,
+                'xmax': xmax,
+                'ymax': ymax,
+                'class': pokemon_name
+            })
         else:
-            mask = None
-
-        # ポケモンをランダムな位置に配置
-        x = random.randint(0, background.width - pokemon_icon.width)
-        y = random.randint(0, background.height - pokemon_icon.height)
-        background.paste(pokemon_icon, (x, y), mask)
-
-        # アノテーションデータの記録
-        annotations.append({
-            'xmin': x,
-            'ymin': y,
-            'xmax': x + pokemon_icon.width,
-            'ymax': y + pokemon_icon.height,
-            'class': pokemon_name  # クラス名を追加
-        })
+            print(f"Could not place {pokemon_name} without overlapping after {max_attempts} attempts.")
 
     return background, annotations
+
 
 # 画像とアノテーションの生成
 annotations_by_image = defaultdict(list)
