@@ -71,6 +71,17 @@ def is_overlapping(box1, box2):
     # 各ボックスは(xmin, ymin, xmax, ymax)形式
     return not (box1[2] < box2[0] or box1[0] > box2[2] or box1[3] < box2[1] or box1[1] > box2[3])
 
+def initialize_appearance_matrix(num_pokemon, num_repeats):
+    return [[False] * num_repeats for _ in range(num_pokemon)]
+
+def select_pokemon_for_image(appearance_matrix, pokemon_files):
+    flat_list = [(i, j) for i in range(len(appearance_matrix)) for j in range(len(appearance_matrix[i])) if not appearance_matrix[i][j]]
+    if not flat_list:
+        return None  # すべてのポケモンが指定回数登場していれば終了
+    selected_index = random.choice(flat_list)
+    pokemon_index, repeat_index = selected_index
+    return pokemon_index, repeat_index
+
 def get_non_overlapping_box(background_size, existing_boxes, icon_size, max_attempts=50):
     for _ in range(max_attempts):
         x = random.randint(0, background_size[0] - icon_size[0])
@@ -80,13 +91,17 @@ def get_non_overlapping_box(background_size, existing_boxes, icon_size, max_atte
             return new_box
     return None  # 適切なボックスが見つからない場合はNoneを返す
 
-def create_image_with_pokemons(background_size, pokemon_files, num_pokemons=6, image_index=0):
+def create_image_with_pokemons(background_size, pokemon_files, appearance_matrix, num_pokemons=6, image_index=0):
     background = Image.new('RGB', background_size, (255, 255, 255))
     annotations = []
     existing_boxes = []
 
     for _ in range(num_pokemons):
-        pokemon_file = random.choice(pokemon_files)
+        result = select_pokemon_for_image(appearance_matrix, pokemon_files)
+        if result is None:
+            break
+        pokemon_index, repeat_index = result
+        pokemon_file = pokemon_files[pokemon_index]
         pokemon_icon = Image.open(input_folder_path + '/' + pokemon_file)
         pokemon_icon = apply_affine_transformation(pokemon_icon)  # 画像に変形を適用
         pokemon_name = pokemon_names[pokemon_file]
@@ -107,20 +122,31 @@ def create_image_with_pokemons(background_size, pokemon_files, num_pokemons=6, i
                 'ymax': ymax,
                 'class': pokemon_name
             })
+            appearance_matrix[pokemon_index][repeat_index] = True
         else:
             print(f"Could not place {pokemon_name} without overlapping after {max_attempts} attempts.")
 
     return background, annotations
 
-# 画像とアノテーションの生成
+
+num_pokemon = len(pokemon_names)  # ポケモンの総数
+num_repeats = 300  # 各ポケモンが登場すべき回数
+appearance_matrix = initialize_appearance_matrix(num_pokemon, num_repeats)
 annotations_by_image = defaultdict(list)
-for i in range(3):  # 3枚の画像を生成
-    image, annotations = create_image_with_pokemons((800, 600), df.filename.tolist(), num_pokemons=6, image_index=i)
+num_pokemons_per_image = 6
+
+print(f'{num_pokemon} 匹のポケモンを {num_repeats} 回ずつ登場させる。1画像につき {num_pokemons_per_image} 匹ずつであるため、{math.ceil(num_pokemon * num_repeats / num_pokemons_per_image)} 枚の画像を生成')
+
+i = 0
+while any(not all(row) for row in appearance_matrix): 
+
     image_filename = f'image_{i}.png'
+    image, annotations = create_image_with_pokemons((800, 600), df.filename.tolist(),appearance_matrix, num_pokemons_per_image, image_index=i)
     image.save(f'{output_image_path}/{image_filename}')
     for annotation in annotations:
         annotation['filename'] = image_filename
         annotations_by_image[image_filename].append(annotation)
+    i += 1
 
 # JSON形式で全アノテーションを保存
 with open(f'{output_annotation_path}/annotations.json', 'w') as f:
