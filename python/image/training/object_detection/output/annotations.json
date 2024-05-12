@@ -2,151 +2,151 @@
     "image_0.png": [
         {
             "filename": "image_0.png",
-            "xmin": 287,
-            "ymin": 45,
-            "xmax": 421,
-            "ymax": 179,
-            "class": "ビビヨン"
+            "xmin": 277,
+            "ymin": 124,
+            "xmax": 466,
+            "ymax": 313,
+            "class": "ガーディ(ヒスイのすがた)"
         },
         {
             "filename": "image_0.png",
-            "xmin": 466,
-            "ymin": 199,
-            "xmax": 600,
-            "ymax": 333,
-            "class": "ワルビアル"
+            "xmin": 35,
+            "ymin": 163,
+            "xmax": 224,
+            "ymax": 352,
+            "class": "コレクレー"
         },
         {
             "filename": "image_0.png",
-            "xmin": 61,
-            "ymin": 413,
-            "xmax": 195,
-            "ymax": 547,
-            "class": "ピカチュウ"
-        },
-        {
-            "filename": "image_0.png",
-            "xmin": 141,
-            "ymin": 158,
-            "xmax": 275,
+            "xmin": 508,
+            "ymin": 103,
+            "xmax": 697,
             "ymax": 292,
-            "class": "ヌメルゴン(ヒスイのすがた)"
+            "class": "エースバーン"
         },
         {
             "filename": "image_0.png",
-            "xmin": 412,
-            "ymin": 456,
-            "xmax": 546,
-            "ymax": 590,
-            "class": "アゴジムシ"
+            "xmin": 582,
+            "ymin": 318,
+            "xmax": 771,
+            "ymax": 507,
+            "class": "キュウコン"
         },
         {
             "filename": "image_0.png",
-            "xmin": 542,
-            "ymin": 37,
-            "xmax": 676,
-            "ymax": 171,
-            "class": "オーダイル"
+            "xmin": 373,
+            "ymin": 328,
+            "xmax": 562,
+            "ymax": 517,
+            "class": "トリトドン"
+        },
+        {
+            "filename": "image_0.png",
+            "xmin": 65,
+            "ymin": 402,
+            "xmax": 254,
+            "ymax": 591,
+            "class": "キュウコン(アローラのすがた)"
         }
     ],
     "image_1.png": [
         {
             "filename": "image_1.png",
-            "xmin": 105,
-            "ymin": 329,
-            "xmax": 239,
-            "ymax": 463,
-            "class": "ダーテング"
+            "xmin": 169,
+            "ymin": 326,
+            "xmax": 358,
+            "ymax": 515,
+            "class": "アノホラグサ"
         },
         {
             "filename": "image_1.png",
-            "xmin": 641,
-            "ymin": 216,
-            "xmax": 775,
-            "ymax": 350,
-            "class": "アグノム"
+            "xmin": 595,
+            "ymin": 268,
+            "xmax": 784,
+            "ymax": 457,
+            "class": "ハリーセン"
         },
         {
             "filename": "image_1.png",
-            "xmin": 465,
-            "ymin": 252,
-            "xmax": 599,
-            "ymax": 386,
-            "class": "ドレディア"
+            "xmin": 335,
+            "ymin": 51,
+            "xmax": 524,
+            "ymax": 240,
+            "class": "パオジアン"
         },
         {
             "filename": "image_1.png",
-            "xmin": 646,
-            "ymin": 59,
-            "xmax": 780,
-            "ymax": 193,
-            "class": "イッカネズミ"
+            "xmin": 373,
+            "ymin": 388,
+            "xmax": 562,
+            "ymax": 577,
+            "class": "フライゴン"
         },
         {
             "filename": "image_1.png",
-            "xmin": 458,
-            "ymin": 434,
-            "xmax": 592,
-            "ymax": 568,
-            "class": "ピンプク"
+            "xmin": 561,
+            "ymin": 45,
+            "xmax": 750,
+            "ymax": 234,
+            "class": "ボルトロス(れいじゅうフォルム)"
         },
         {
             "filename": "image_1.png",
-            "xmin": 17,
-            "ymin": 167,
-            "xmax": 151,
-            "ymax": 301,
-            "class": "モウカザル"
+            "xmin": 19,
+            "ymin": 123,
+            "xmax": 208,
+            "ymax": 312,
+            "class": "ジュゴン"
         }
     ],
     "image_2.png": [
         {
             "filename": "image_2.png",
-            "xmin": 619,
-            "ymin": 9,
-            "xmax": 753,
-            "ymax": 143,
-            "class": "ポットデス"
+            "xmin": 572,
+            "ymin": 285,
+            "xmax": 761,
+            "ymax": 474,
+            "class": "ゴルーグ"
         },
         {
             "filename": "image_2.png",
-            "xmin": 288,
-            "ymin": 357,
-            "xmax": 422,
-            "ymax": 491,
-            "class": "シャリタツ(たれたすがた)"
+            "xmin": 109,
+            "ymin": 321,
+            "xmax": 298,
+            "ymax": 510,
+            "class": "ピカチュウ"
         },
         {
             "filename": "image_2.png",
-            "xmin": 92,
-            "ymin": 128,
-            "xmax": 226,
-            "ymax": 262,
-            "class": "メタグロス"
+            "xmin": 302,
+            "ymin": 384,
+            "xmax": 491,
+            "ymax": 573,
+            "class": "ハスブレロ"
         },
         {
             "filename": "image_2.png",
-            "xmin": 510,
-            "ymin": 430,
-            "xmax": 644,
-            "ymax": 564,
-            "class": "ハピナス"
+            "xmin": 71,
+            "ymin": 131,
+            "xmax": 260,
+            "ymax": 320,
+            "class": "セグレイブ"
         },
         {
             "filename": "image_2.png",
-            "xmin": 416,
-            "ymin": 133,
-            "xmax": 550,
-            "ymax": 267,
-            "class": "カポエラー"
+            "xmin": 322,
+            "ymin": 50,
+            "xmax": 511,
+            "ymax": 239,
+            "class": "クワガノン"
         },
         {
             "filename": "image_2.png",
-            "xmin": 113,
-            "ymin": 356,
-            "xmax": 247,
-            "ymax": 490,
-            "class": "スリーパー"
+            "xmin": 610,
+            "ymin": 7,
+            "xmax": 799,
+            "ymax": 196,
+            "class": "イダイナキバ"
         }
     ]
 }

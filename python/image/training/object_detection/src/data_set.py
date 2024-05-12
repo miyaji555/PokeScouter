@@ -1,14 +1,35 @@
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageOps
 import random
 import pandas as pd
-import json
 import sys
 from collections import defaultdict
+import math
+import json
+
 
 # モジュールがあるディレクトリを追加
 sys.path.append('../..')
 
 from util import clear_directory, create_recursive_dir
+
+def rotate_image_with_canvas(image):
+    # 元の画像サイズを取得
+    original_width, original_height = image.size
+
+    # 回転後に全体をカバーできるようにキャンバスサイズを計算
+    diagonal = int(math.sqrt(original_width ** 2 + original_height ** 2))
+    new_size = (diagonal, diagonal)
+
+    # 新しいキャンバスを作成し、元の画像を中心に配置
+    canvas = Image.new('RGBA', new_size, (255, 255, 255, 255))  # 白背景のキャンバス
+    top_left = ((new_size[0] - original_width) // 2, (new_size[1] - original_height) // 2)
+    canvas.paste(image, top_left)
+
+    # キャンバスを回転
+    angle = random.randint(0, 360)
+    rotated_canvas = canvas.rotate(angle, resample=Image.BICUBIC)
+
+    return rotated_canvas
 
 input_folder_path = "../../../output"
 output_image_path = "../output/image"
@@ -46,6 +67,7 @@ def create_image_with_pokemons(background_size, pokemon_files, num_pokemons=6, i
     for _ in range(num_pokemons):
         pokemon_file = random.choice(pokemon_files)
         pokemon_icon = Image.open(input_folder_path + '/' + pokemon_file)
+        pokemon_icon = rotate_image_with_canvas(pokemon_icon)  # 画像に変形を適用
         pokemon_name = pokemon_names[pokemon_file]
 
         icon_size = (pokemon_icon.width, pokemon_icon.height)
@@ -68,7 +90,6 @@ def create_image_with_pokemons(background_size, pokemon_files, num_pokemons=6, i
             print(f"Could not place {pokemon_name} without overlapping after {max_attempts} attempts.")
 
     return background, annotations
-
 
 # 画像とアノテーションの生成
 annotations_by_image = defaultdict(list)
