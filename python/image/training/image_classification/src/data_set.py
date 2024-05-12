@@ -4,7 +4,7 @@ import glob
 import pandas as pd
 import sys
 from tensorflow.keras.preprocessing.image import ImageDataGenerator, load_img, img_to_array
-from util import clear_directory , create_recursive_dir
+from python.image.training.util import clear_directory , create_recursive_dir
 
 
 # 生成枚数（１枚あたり
@@ -16,7 +16,7 @@ project_path = ".."
 input_folder_path = project_path + "/../../output"
 
 # ラベルを読み込む
-spreadsheet_path = project_path + '/学習ラベル.csv'
+spreadsheet_path = project_path + '/../学習ラベル.csv'
 df = pd.read_csv(spreadsheet_path)
 
 print(df)
