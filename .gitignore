@@ -62,3 +62,4 @@ ios/Runner/GoogleService-Info.plist
 python/image/training/image_classification/output/image
 python/image/training/object_detection/output/image
 python/image/training/object_detection/output/checked
+python/image/training/object_detection/output/labels
