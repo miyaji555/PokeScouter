@@ -13,6 +13,12 @@ sys.path.append('../..')
 
 from util import clear_directory, create_recursive_dir
 
+# 定数を定義
+VAL_SPLIT = 0.2  # 検証セットの割合
+NUM_REPEATS = 10  # 各ポケモンが登場する回数
+NUM_POKEMONS_PER_IMAGE = 6  # 1画像に登場するポケモン数
+MAX_ATTEMPTS = 50  # ポケモンの重なりを避けるための最大試行回数
+
 def apply_affine_transformation(image):
     original_width, original_height = image.size
     canvas = Image.new('RGBA', (original_width, original_height), (255, 255, 255, 0))
@@ -36,12 +42,22 @@ def apply_affine_transformation(image):
     return canvas
 
 input_folder_path = "../../../output"
-output_image_path = "../output/image"
-output_annotation_path = "../output"
+output_image_path_train = "../datasets/pokemon/images/train"
+output_image_path_val = "../datasets/pokemon/images/val"
+output_label_path_train = "../datasets/pokemon/labels/train"
+output_label_path_val = "../datasets/pokemon/labels/val"
+output_data_yaml_path = "../output"
 
-clear_directory(output_image_path)
-create_recursive_dir(output_image_path)
-create_recursive_dir(output_annotation_path)
+clear_directory(output_image_path_train)
+clear_directory(output_image_path_val)
+clear_directory(output_label_path_train)
+clear_directory(output_label_path_val)
+clear_directory(output_data_yaml_path)
+create_recursive_dir(output_image_path_train)
+create_recursive_dir(output_image_path_val)
+create_recursive_dir(output_label_path_train)
+create_recursive_dir(output_label_path_val)
+create_recursive_dir(output_data_yaml_path)
 
 # ラベルを読み込む
 spreadsheet_path = '../../学習ラベル.csv'
@@ -74,7 +90,7 @@ def get_non_overlapping_box(background_size, existing_boxes, icon_size, max_atte
             return new_box
     return None
 
-def create_image_with_pokemons(background_size, pokemon_files, appearance_matrix, num_pokemons=6, image_index=0):
+def create_image_with_pokemons(background_size, pokemon_files, appearance_matrix, num_pokemons=NUM_POKEMONS_PER_IMAGE, image_index=0, set_type='train'):
     background = Image.new('RGB', background_size, (255, 255, 255))
     annotations = []
     existing_boxes = []
@@ -90,15 +106,14 @@ def create_image_with_pokemons(background_size, pokemon_files, appearance_matrix
         pokemon_name = pokemon_names[pokemon_file]
 
         icon_size = (pokemon_icon.width, pokemon_icon.height)
-        max_attempts = 50
-        box = get_non_overlapping_box(background_size, existing_boxes, icon_size, max_attempts)
+        box = get_non_overlapping_box(background_size, existing_boxes, icon_size, MAX_ATTEMPTS)
 
         if box is not None:
             xmin, ymin, xmax, ymax = box
             background.paste(pokemon_icon, (xmin, ymin), pokemon_icon if pokemon_icon.mode == 'RGBA' else None)
             existing_boxes.append((xmin, ymin, xmax, ymax))
             annotations.append({
-                'filename': f'image_{image_index}.png',
+                'filename': f'{set_type}_image_{image_index:02d}.png',
                 'xmin': xmin,
                 'ymin': ymin,
                 'xmax': xmax,
@@ -107,46 +122,69 @@ def create_image_with_pokemons(background_size, pokemon_files, appearance_matrix
             })
             appearance_matrix[pokemon_index][repeat_index] = True
         else:
-            print(f"Could not place {pokemon_name} without overlapping after {max_attempts} attempts.")
+            print(f"Could not place {pokemon_name} without overlapping after {MAX_ATTEMPTS} attempts.")
 
     return background, annotations
 
 num_pokemon = len(pokemon_names)
-num_repeats = 10
+num_repeats = NUM_REPEATS
 appearance_matrix = initialize_appearance_matrix(num_pokemon, num_repeats)
 annotations_by_image = defaultdict(list)
-num_pokemons_per_image = 6
+num_pokemons_per_image = NUM_POKEMONS_PER_IMAGE
 
-print(f'{num_pokemon} 匹のポケモンを {num_repeats} 回ずつ登場させる。1画像につき {num_pokemons_per_image} 匹ずつであるため、{math.ceil(num_pokemon * num_repeats / num_pokemons_per_image)} 枚の画像を生成')
+total_images = math.ceil(num_pokemon * num_repeats / num_pokemons_per_image)
+num_val_images = int(total_images * VAL_SPLIT)
+num_train_images = total_images - num_val_images
+
+print(f'{num_pokemon} 匹のポケモンを {num_repeats} 回ずつ登場させる。1画像につき {num_pokemons_per_image} 匹ずつであるため、{total_images} 枚の画像を生成')
+print(f'トレーニングセット: {num_train_images} 枚, 検証セット: {num_val_images} 枚')
 
 i = 0
+train_index = 1
+val_index = 1
 while any(not all(row) for row in appearance_matrix):
-    image_filename = f'image_{i}.png'
-    image, annotations = create_image_with_pokemons((800, 600), df.filename.tolist(), appearance_matrix, num_pokemons_per_image, image_index=i)
-    image.save(f'{output_image_path}/{image_filename}')
-    for annotation in annotations:
-        annotation['filename'] = image_filename
-        annotations_by_image[image_filename].append(annotation)
-    i += 1
+    if i < num_train_images:
+        set_type = 'train'
+        image_index = train_index
+        train_index += 1
+    else:
+        set_type = 'val'
+        image_index = val_index
+        val_index += 1
 
-# YOLO形式に変換
-os.makedirs(f'{output_annotation_path}/labels', exist_ok=True)
+    image_filename = f'{set_type}_image_{image_index:02d}.png'
+    image, annotations = create_image_with_pokemons((800, 600), df.filename.tolist(), appearance_matrix, num_pokemons_per_image, image_index=image_index, set_type=set_type)
 
-for image_file, boxes in tqdm(annotations_by_image.items()):
-    label_file = os.path.join(output_annotation_path, 'labels', image_file.replace('.png', '.txt'))
+    if set_type == 'train':
+        image_path = os.path.join(output_image_path_train, image_filename)
+        label_path = os.path.join(output_label_path_train, image_filename.replace('.png', '.txt'))
+    else:
+        image_path = os.path.join(output_image_path_val, image_filename)
+        label_path = os.path.join(output_label_path_val, image_filename.replace('.png', '.txt'))
     
-    with open(label_file, 'w') as f:
-        for box in boxes:
+    image.save(image_path)
+    with open(label_path, 'w') as f:
+        for box in annotations:
             class_id = classes.index(box['class'])
             xmin, ymin, xmax, ymax = box['xmin'], box['ymin'], box['xmax'], box['ymax']
-            
-            img_path = os.path.join(output_image_path, image_file)
-            img = Image.open(img_path)
-            img_width, img_height = img.size
-            
-            x_center = (xmin + xmax) / 2.0 / img_width
-            y_center = (ymin + ymax) / 2.0 / img_height
-            width = (xmax - xmin) / img_width
-            height = (ymax - ymin) / img_height
-            
+            x_center = (xmin + xmax) / 2.0 / image.width
+            y_center = (ymin + ymax) / 2.0 / image.height
+            width = (xmax - xmin) / image.width
+            height = (ymax - ymin) / image.height
             f.write(f"{class_id} {x_center:.6f} {y_center:.6f} {width:.6f} {height:.6f}\n")
+
+    i += 1
+
+# data.yamlファイルの作成
+data_yaml_content = f"""
+train: {output_image_path_train}
+val: {output_image_path_val}
+
+nc: {len(classes)}
+names: {classes}
+"""
+
+with open(os.path.join(output_data_yaml_path, 'data.yaml'), 'w') as f:
+    f.write(data_yaml_content)
+
+print("data.yamlファイルが生成されました。")

@@ -63,3 +63,5 @@ python/image/training/image_classification/output/image
 python/image/training/object_detection/output/image
 python/image/training/object_detection/output/checked
 python/image/training/object_detection/output/labels
+python/image/training/object_detection/datasets
+python/image/training/object_detection/output/data.yaml
