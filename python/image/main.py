@@ -29,16 +29,16 @@ def extract_character_grid(image_path, save_path, left_margin, top_margins, char
         print(f"Error opening image file: {image_path}")
 
 # Parameters
-left_margin = 42
+left_margin = 41
 top_margins = {
-    1: 38,
-    2: 6989,
-    3: 14085,
-    4: 21182,
+    1: 374,
+    2: 7467,
+    3: 14705,
+    4: 21801,
 }
-character_size = 134
-horizontal_spacing = 8
-vertical_spacing = 8
+character_size = 132
+horizontal_spacing = 10
+vertical_spacing = 10
 horizontal_chars = 7
 
 image_path = 'input.jpg'
