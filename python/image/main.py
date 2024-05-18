@@ -33,8 +33,8 @@ left_margin = 41
 top_margins = {
     1: 374,
     2: 7467,
-    3: 14705,
-    4: 21801,
+    3: 14567,
+    4: 21661,
 }
 character_size = 132
 horizontal_spacing = 10

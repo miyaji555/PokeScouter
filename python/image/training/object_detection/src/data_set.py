@@ -15,7 +15,7 @@ from util import clear_directory, create_recursive_dir
 
 # 定数を定義
 VAL_SPLIT = 0.2  # 検証セットの割合
-NUM_REPEATS = 10  # 各ポケモンが登場する回数
+NUM_REPEATS = 150  # 各ポケモンが登場する回数
 NUM_POKEMONS_PER_IMAGE = 6  # 1画像に登場するポケモン数
 MAX_ATTEMPTS = 50  # ポケモンの重なりを避けるための最大試行回数
 
