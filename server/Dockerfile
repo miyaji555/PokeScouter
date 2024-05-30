@@ -2,6 +2,9 @@
 FROM python:3.9-buster
 ENV PYTHONUNBUFFERED=1
 
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y libgl1-mesa-dev
+
 WORKDIR /src
 
 # pipを使ってpoetryをインストール
