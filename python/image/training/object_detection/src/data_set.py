@@ -28,8 +28,9 @@ def apply_affine_transformation(image):
     center_x = canvas.width / 2
     center_y = canvas.height / 2
 
-    scale_x = random.uniform(0.8, 1.2)
-    scale_y = random.uniform(0.8, 1.2)
+    scale = 1 / 2
+    scale_x = random.uniform(0.8 * scale, 1.2 * scale)
+    scale_y = random.uniform(0.8 * scale, 1.2 * scale)
     scaled_width = int(original_width * scale_x)
     scaled_height = int(original_height * scale_y)
     shear = random.uniform(-0.1, 0.1)
@@ -41,7 +42,7 @@ def apply_affine_transformation(image):
 
     return canvas
 
-input_folder_path = "../../../output"
+input_folder_path = "../../pokemon_icon"
 output_image_path_train = "../datasets/pokemon/images/train"
 output_image_path_val = "../datasets/pokemon/images/val"
 output_label_path_train = "../datasets/pokemon/labels/train"
