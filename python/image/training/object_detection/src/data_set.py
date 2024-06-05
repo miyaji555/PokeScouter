@@ -7,6 +7,7 @@ import math
 import json
 import os
 from tqdm import tqdm
+import numpy as np
 
 # モジュールがあるディレクトリを追加
 sys.path.append('../..')
@@ -61,7 +62,7 @@ create_recursive_dir(output_label_path_val)
 create_recursive_dir(output_data_yaml_path)
 
 # ラベルを読み込む
-spreadsheet_path = '../../学習ラベル.csv'
+spreadsheet_path = '../../label-top150.csv'
 df = pd.read_csv(spreadsheet_path)
 
 # ファイル名とポケモン名の辞書を作成
@@ -90,6 +91,33 @@ def get_non_overlapping_box(background_size, existing_boxes, icon_size, max_atte
         if all(not is_overlapping(new_box, box) for box in existing_boxes):
             return new_box
     return None
+
+### 画像の解像度をランダムにn分の1にするメソッド
+def resize_image(image):
+    scale = random.randint(1, 3)
+    width, height = image.size
+    new_width = width // scale
+    new_height = height // scale
+    image = image.resize((new_width, new_height))
+    return image
+
+def apply_noise(image, noise_level=0.05):
+    # 画像をnumpy配列に変換
+    image_np = np.array(image)
+
+    ## randomに1から3の整数を生成
+    randomScale = random.randint(1, 3)
+    
+    # ノイズを生成
+    noise = np.random.normal(scale=noise_level * randomScale, size=image_np.shape)
+    
+    # 画像にノイズを追加
+    noisy_image_np = np.clip(image_np + noise * 255, 0, 255).astype(np.uint8)
+    
+    # 画像をPILフォーマットに戻す
+    noisy_image = Image.fromarray(noisy_image_np)
+    
+    return noisy_image
 
 def create_image_with_pokemons(background_size, pokemon_files, appearance_matrix, num_pokemons=NUM_POKEMONS_PER_IMAGE, image_index=0, set_type='train'):
     background = Image.new('RGB', background_size, (255, 255, 255))
@@ -162,7 +190,8 @@ while any(not all(row) for row in appearance_matrix):
     else:
         image_path = os.path.join(output_image_path_val, image_filename)
         label_path = os.path.join(output_label_path_val, image_filename.replace('.png', '.txt'))
-    
+    image = apply_noise(image)
+    image = resize_image(image)
     image.save(image_path)
     with open(label_path, 'w') as f:
         for box in annotations:
