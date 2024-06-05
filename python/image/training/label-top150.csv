@@ -1,4 +1,7 @@
 filename,poke_name,number
+00_male.png,オスのマーク,10001
+00_female.png,メスのマーク,10002
+00_level.png,レベルのマーク,10003
 pm1087_00_00_00_big.png,ハバタクカミ,987
 pm1099_00_00_00_big.png,パオジアン,1002
 pm0149_00_00_00_big.png,カイリュー,149
