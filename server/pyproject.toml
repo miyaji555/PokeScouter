@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "demo-app"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.111.0"
+uvicorn = {extras = ["standard"], version = "^0.30.0"}
+torch = "^2.3.0"
+torchvision = "^0.18.0"
+pillow = "^10.3.0"
+opencv-python-headless = "^4.9.0.80"
+pandas = "^2.2.2"
+requests = "^2.32.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
