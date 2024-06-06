@@ -39,7 +39,7 @@ def draw_bounding_boxes(image_path, label_path, output_path, classes):
     image.save(output_path)
 
 # クラス名のリストを取得
-spreadsheet_path = '../../学習ラベル.csv'
+spreadsheet_path = '../../label-all.csv'
 df = pd.read_csv(spreadsheet_path)
 classes = list(df.poke_name.unique())
 
