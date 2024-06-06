@@ -65,3 +65,5 @@ python/image/training/object_detection/output/checked
 python/image/training/object_detection/output/labels
 python/image/training/object_detection/datasets
 python/image/training/object_detection/output/data.yaml
+data-for-ml
+python/image/training/pokemon_icon
