@@ -16,7 +16,7 @@ project_path = ".."
 input_folder_path = project_path + "/../../output"
 
 # ラベルを読み込む
-spreadsheet_path = project_path + '/../label-all.csv'
+spreadsheet_path = project_path + '/../label/label-all.csv'
 df = pd.read_csv(spreadsheet_path)
 
 print(df)

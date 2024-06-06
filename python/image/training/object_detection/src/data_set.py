@@ -62,7 +62,7 @@ create_recursive_dir(output_label_path_val)
 create_recursive_dir(output_data_yaml_path)
 
 # ラベルを読み込む
-spreadsheet_path = '../../label-top150.csv'
+spreadsheet_path = '../../label/label-top150.csv'
 df = pd.read_csv(spreadsheet_path)
 
 # ファイル名とポケモン名の辞書を作成
