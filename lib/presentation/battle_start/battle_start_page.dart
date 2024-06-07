@@ -50,6 +50,11 @@ class BattleStartPage extends HookConsumerWidget {
                 },
                 icon: const Icon(Icons.help),
               ),
+              IconButton(
+                  onPressed: () {
+                    context.push(kPagePathScouter);
+                  },
+                  icon: const Icon(Icons.camera)),
             ],
           ),
           body: Column(

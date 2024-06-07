@@ -12,6 +12,7 @@ import 'package:poke_scouter/presentation/history/history_page.dart';
 import 'package:poke_scouter/presentation/login/login_page.dart';
 import 'package:poke_scouter/presentation/my_page/my_page.dart';
 import 'package:poke_scouter/presentation/party_register/party_register_page.dart';
+import 'package:poke_scouter/presentation/scouter/scouter_page.dart';
 import 'package:poke_scouter/providers/remote_config_provider.dart';
 import 'package:poke_scouter/providers/version_provider.dart';
 
@@ -86,6 +87,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: kPagePathBattleSuggest,
         builder: (BuildContext context, GoRouterState state) {
           return const BattleSuggestPage();
+        },
+      ),
+      GoRoute(
+        name: kPageNameScouter,
+        path: kPagePathScouter,
+        builder: (BuildContext context, GoRouterState state) {
+          return const ScouterPage();
         },
       ),
       GoRoute(

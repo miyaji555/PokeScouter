@@ -9,6 +9,7 @@ const kPageNameBattleStart = "対戦開始";
 const kPageNameBattleSuggest = "過去の対戦";
 const kPageNameBattleMemo = "対戦情報登録";
 const kPageNameUpdate = "アップデートのお願い";
+const kPageNameScouter = "スカウター";
 
 const kPagePathTop = "/battle";
 const kPagePathMy = "/mypage";
@@ -23,3 +24,4 @@ const kPagePathBattleStart = "/battle/start";
 const kPagePathBattleSuggest = "/battle/suggest";
 const kPagePathBattleMemo = "/battle/memo";
 const kPagePathUpdate = "/update";
+const kPagePathScouter = "/battle/scouter";
