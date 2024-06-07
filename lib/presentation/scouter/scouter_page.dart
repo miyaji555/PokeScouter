@@ -1,17 +1,23 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:poke_scouter/presentation/scouter/scouter_controller.dart';
 
-class ScouterPage extends StatelessWidget {
+class ScouterPage extends HookConsumerWidget {
   const ScouterPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Scouter'),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(scouterControllerProvider);
+
+    return state.when(
+      loading: () => const Center(
+        child: CircularProgressIndicator(),
       ),
-      body: const Center(
-        child: Text('Scouter'),
-      ),
+      error: (error, _) => Text('Error: $error'),
+      data: (controller) {
+        return CameraPreview(controller!);
+      },
     );
   }
 }
