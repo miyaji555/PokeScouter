@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:poke_scouter/constants/provider_name.dart';
 import 'package:poke_scouter/constants/remote_config.dart';
+import 'package:poke_scouter/presentation/Widget/modal_bottom_sheet.dart';
 import 'package:poke_scouter/presentation/Widget/tab.dart';
 import 'package:poke_scouter/presentation/battle_memo/battle_memo_page.dart';
 import 'package:poke_scouter/presentation/battle_start/battle_start_page.dart';
@@ -41,11 +42,12 @@ final routerProvider = Provider<GoRouter>((ref) {
           },
           routes: [
             GoRoute(
-                name: kPageNameBattleStart,
-                path: kPagePathBattleStart,
-                builder: (BuildContext context, GoRouterState state) {
-                  return const BattleStartPage();
-                }),
+              name: kPageNameBattleStart,
+              path: kPagePathBattleStart,
+              builder: (BuildContext context, GoRouterState state) {
+                return const BattleStartPage();
+              },
+            ),
             GoRoute(
               name: kPageNameHistory,
               path: kPagePathHistory,
@@ -90,13 +92,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(
-        name: kPageNameScouter,
-        path: kPagePathScouter,
-        builder: (BuildContext context, GoRouterState state) {
-          return const ScouterPage();
-        },
-      ),
-      GoRoute(
           name: kPageNameBattleMemo,
           path: kPagePathBattleMemo,
           builder: (BuildContext context, GoRouterState state) {
@@ -108,6 +103,12 @@ final routerProvider = Provider<GoRouter>((ref) {
           builder: (BuildContext context, GoRouterState state) {
             return const ForceUpdatePage();
           }),
+      GoRoute(
+        name: kPageNameScouter,
+        path: kPagePathScouter,
+        pageBuilder: (context, state) =>
+            BottomSheetPage(builder: (_) => const ScouterPage()),
+      ),
     ],
   );
 }, name: kProviderNameRouter);

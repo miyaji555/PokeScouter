@@ -24,4 +24,4 @@ const kPagePathBattleStart = "/battle/start";
 const kPagePathBattleSuggest = "/battle/suggest";
 const kPagePathBattleMemo = "/battle/memo";
 const kPagePathUpdate = "/update";
-const kPagePathScouter = "/battle/scouter";
+const kPagePathScouter = "/scouter";

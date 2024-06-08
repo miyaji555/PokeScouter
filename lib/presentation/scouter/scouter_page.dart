@@ -18,7 +18,6 @@ class ScouterPage extends ConsumerWidget {
       error: (error, _) => Text('Error: $error'),
       data: (controller) {
         return Scaffold(
-          appBar: AppBar(title: Text('Camera Preview')),
           body: Stack(
             children: [
               SizedBox(
@@ -28,13 +27,8 @@ class ScouterPage extends ConsumerWidget {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
-              if (controller != null && controller.value.isInitialized) {
-                try {
-                  final image = await controller.takePicture();
-                  // 撮影された画像の処理
-                } catch (e) {
-                  print(e);
-                }
+              if (controller.value.isInitialized) {
+                await controller.takePicture();
               }
             },
             child: Icon(Icons.camera),
