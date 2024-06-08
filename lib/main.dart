@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +9,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:poke_scouter/constants/firebase_environment.dart';
 import 'package:poke_scouter/environment_config.dart';
+import 'package:poke_scouter/providers/camera_provider.dart';
 import 'package:poke_scouter/providers/remote_config_provider.dart';
 import 'package:poke_scouter/providers/version_provider.dart';
 import 'package:poke_scouter/repository/shared_preferences.dart';
@@ -38,6 +40,7 @@ Future main() async {
     pokemonRawDataProvider.overrideWithValue(await getPokemonRawData),
     sharedPreferencesProvider
         .overrideWithValue(await SharedPreferences.getInstance()),
+    camerasProvider.overrideWithValue(await availableCameras()),
     remoteConfigProvider.overrideWithValue(
         await FirebaseRemoteConfigService().initRemoteConfig()),
     versionProvider.overrideWithValue(await PackageInfo.fromPlatform())
