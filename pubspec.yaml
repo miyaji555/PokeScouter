@@ -42,7 +42,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.3
-  build_runner: ^2.3.2
+  build_runner: ^2.4.11
   freezed: ^2.3.2
   dart_style: ^2.3.1
   flutter_gen_runner: ^5.5.0+1
