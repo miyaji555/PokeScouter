@@ -31,7 +31,7 @@ class ScouterPage extends ConsumerWidget {
                 await controller.takePicture();
               }
             },
-            child: Icon(Icons.camera),
+            child: const Icon(Icons.camera),
           ),
         );
       },

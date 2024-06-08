@@ -9,7 +9,6 @@ import 'package:poke_scouter/constants/tutorial_text.dart';
 import 'package:poke_scouter/presentation/Widget/pokemon_textfield.dart';
 import 'package:poke_scouter/presentation/Widget/pokemon_widget.dart';
 import 'package:poke_scouter/presentation/Widget/tutorial_widget.dart';
-import 'package:poke_scouter/presentation/scouter/scouter_page.dart';
 import 'package:poke_scouter/presentation/top/top_page_state.dart';
 import 'package:poke_scouter/providers/tutorial_provider.dart';
 import 'package:poke_scouter/repository/shared_preferences.dart';
@@ -53,7 +52,7 @@ class BattleStartPage extends HookConsumerWidget {
               ),
               IconButton(
                   onPressed: () {
-                    context.push('$kPagePathScouter');
+                    context.push(kPagePathScouter);
                   },
                   icon: const Icon(Icons.camera)),
             ],
