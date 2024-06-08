@@ -16,7 +16,24 @@ class ScouterPage extends HookConsumerWidget {
       ),
       error: (error, _) => Text('Error: $error'),
       data: (controller) {
-        return CameraPreview(controller!);
+        return Scaffold(
+          appBar: AppBar(title: Text('Camera Preview')),
+          body: SizedBox(
+              width: double.infinity, child: CameraPreview(controller!)),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              if (controller != null && controller.value.isInitialized) {
+                try {
+                  final image = await controller.takePicture();
+                  // 撮影された画像の処理
+                } catch (e) {
+                  print(e);
+                }
+              }
+            },
+            child: Icon(Icons.camera),
+          ),
+        );
       },
     );
   }
