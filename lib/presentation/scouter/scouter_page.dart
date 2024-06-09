@@ -110,7 +110,8 @@ class _CroppedImageBytes extends StatelessWidget {
     return SizedBox(
         width: double.infinity,
         height: double.infinity,
-        child: Image.memory(croppedImageBytes));
+        child: Transform.rotate(
+            angle: -math.pi / 2, child: Image.memory(croppedImageBytes)));
   }
 }
 
