@@ -10,26 +10,33 @@ class ScouterPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(scouterControllerProvider);
+    final scouterController = ref.read(scouterControllerProvider.notifier);
 
     return state.when(
       loading: () => const Center(
         child: CircularProgressIndicator(),
       ),
       error: (error, _) => Text('Error: $error'),
-      data: (controller) {
+      data: (state) {
+        final originalImageBytes = state.originalImageBytes;
+        if (originalImageBytes != null) {
+          return SizedBox(
+              width: double.infinity,
+              height: double.infinity,
+              child: Image.memory(originalImageBytes));
+        }
+
+        final controller = state.controller;
         return Scaffold(
-          body: Stack(
-            children: [
-              SizedBox(
-                  width: double.infinity, child: CameraPreview(controller!)),
-              Image.asset(Assets.images.switchFrame.path),
-            ],
-          ),
+          body: SizedBox(
+              width: double.infinity,
+              child: CameraPreview(
+                controller,
+                child: Image.asset(Assets.images.switchFrame.path),
+              )),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
-              if (controller.value.isInitialized) {
-                await controller.takePicture();
-              }
+              scouterController.takePicture();
             },
             child: const Icon(Icons.camera),
           ),
