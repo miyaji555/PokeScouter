@@ -21,15 +21,12 @@ class ScouterPage extends ConsumerWidget {
       ),
       error: (error, _) => Text('Error: $error'),
       data: (state) {
-        final controller = state.controller;
         return Scaffold(
-          body: ImageView(state: state, controller: controller),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              scouterController.takePicture();
-            },
-            child: const Icon(Icons.camera),
+          body: ImageView(
+            state: state,
           ),
+          floatingActionButton: _FloatingActionButton(
+              state: state, controller: scouterController),
         );
       },
     );
@@ -38,20 +35,21 @@ class ScouterPage extends ConsumerWidget {
 
 class ImageView extends StatelessWidget {
   final ScouterState state;
-  final CameraController controller;
-  const ImageView({super.key, required this.state, required this.controller});
+  const ImageView({
+    super.key,
+    required this.state,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final originalImageBytes = state.originalImageBytes;
-    final croppedImageBytes = state.croppedImageBytes;
-    if (croppedImageBytes != null) {
-      return _CroppedImageBytes(croppedImageBytes: croppedImageBytes);
-    }
-    if (originalImageBytes != null) {
-      return _OriginalImageView(originalImageBytes: originalImageBytes);
-    }
-    return _CameraView(controller: controller);
+    return switch (state) {
+      ScouterCameraState(:final controller) =>
+        _CameraView(controller: controller),
+      ScouterOriginalImageState(:final originalImageBytes) =>
+        _OriginalImageView(originalImageBytes: originalImageBytes),
+      ScouterCroppedImageState(:final croppedImageBytes) =>
+        _CroppedImageBytes(croppedImageBytes: croppedImageBytes),
+    };
   }
 }
 
@@ -96,5 +94,60 @@ class _CroppedImageBytes extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         child: Image.memory(croppedImageBytes));
+  }
+}
+
+class _FloatingActionButton extends StatelessWidget {
+  final ScouterState state;
+  final ScouterController controller;
+
+  const _FloatingActionButton(
+      {super.key, required this.state, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return switch (state) {
+      ScouterCameraState() => FloatingActionButton(
+          onPressed: () async {
+            await controller.takePicture();
+          },
+          child: const Icon(Icons.camera_alt)),
+      ScouterOriginalImageState() => Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              onPressed: () async {
+                controller.backStatus();
+              },
+              child: const Icon(Icons.back_hand),
+            ),
+            const SizedBox(width: 8),
+            FloatingActionButton(
+              onPressed: () async {
+                await controller.cropImage();
+              },
+              child: const Icon(Icons.crop),
+            ),
+          ],
+        ),
+      ScouterCroppedImageState() => Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              onPressed: () async {
+                controller.backStatus();
+              },
+              child: const Icon(Icons.back_hand),
+            ),
+            const SizedBox(width: 8),
+            FloatingActionButton(
+              onPressed: () async {
+                await controller.cropImage();
+              },
+              child: const Icon(Icons.crop),
+            ),
+          ],
+        ),
+    };
   }
 }
