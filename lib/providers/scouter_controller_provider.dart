@@ -126,7 +126,7 @@ class ScouterController extends AutoDisposeAsyncNotifier<ScouterState> {
   Future<CameraController> initializeCamera() async {
     final camera = ref.read(camerasProvider).first;
     final controller =
-        CameraController(camera, ResolutionPreset.max, enableAudio: false);
+        CameraController(camera, ResolutionPreset.veryHigh, enableAudio: false);
     await controller.initialize();
     ref.onDispose(() {
       controller.dispose();
