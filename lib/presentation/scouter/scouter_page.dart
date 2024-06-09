@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'dart:math' as math;
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -59,7 +60,7 @@ class ImageView extends StatelessWidget {
 class _CameraView extends StatelessWidget {
   final CameraController controller;
 
-  const _CameraView({super.key, required this.controller});
+  const _CameraView({required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +76,7 @@ class _CameraView extends StatelessWidget {
 class _OriginalImageView extends StatelessWidget {
   final Uint8List originalImageBytes;
 
-  const _OriginalImageView({super.key, required this.originalImageBytes});
+  const _OriginalImageView({required this.originalImageBytes});
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +103,7 @@ class _OriginalImageView extends StatelessWidget {
 class _CroppedImageBytes extends StatelessWidget {
   final Uint8List croppedImageBytes;
 
-  const _CroppedImageBytes({super.key, required this.croppedImageBytes});
+  const _CroppedImageBytes({required this.croppedImageBytes});
 
   @override
   Widget build(BuildContext context) {
@@ -117,8 +118,7 @@ class _FloatingActionButton extends StatelessWidget {
   final ScouterState state;
   final ScouterController controller;
 
-  const _FloatingActionButton(
-      {super.key, required this.state, required this.controller});
+  const _FloatingActionButton({required this.state, required this.controller});
 
   @override
   Widget build(BuildContext context) {
