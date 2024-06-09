@@ -7,6 +7,7 @@ import 'package:image/image.dart';
 import 'package:poke_scouter/presentation/scouter/scouter_page.dart';
 import 'package:poke_scouter/presentation/scouter/scouter_state.dart';
 import 'package:poke_scouter/providers/camera_provider.dart';
+import 'package:poke_scouter/repository/predict_repository.dart';
 
 final scouterControllerProvider =
     AutoDisposeAsyncNotifierProvider<ScouterController, ScouterState>(() {
@@ -124,11 +125,23 @@ class ScouterController extends AutoDisposeAsyncNotifier<ScouterState> {
   Future<CameraController> initializeCamera() async {
     final camera = ref.read(camerasProvider).first;
     final controller =
-        CameraController(camera, ResolutionPreset.veryHigh, enableAudio: false);
+        CameraController(camera, ResolutionPreset.max, enableAudio: false);
     await controller.initialize();
     ref.onDispose(() {
       controller.dispose();
     });
     return controller;
+  }
+
+  Future<void> predictPokemon() async {
+    final currentState = state.asData?.value;
+    if (currentState is! ScouterCroppedImageState) {
+      throw StateError('No image available to predict');
+    }
+    final result = await ref
+        .read(predictRepositoryProvider)
+        .sendImageToApi(currentState.croppedImage);
+    print(result);
+    print(result.pokemon);
   }
 }

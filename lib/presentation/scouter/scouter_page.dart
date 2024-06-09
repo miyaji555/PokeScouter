@@ -165,9 +165,9 @@ class _FloatingActionButton extends StatelessWidget {
             const SizedBox(width: 8),
             FloatingActionButton(
               onPressed: () async {
-                await controller.cropImage();
+                await controller.predictPokemon();
               },
-              child: const Icon(Icons.crop),
+              child: const Icon(Icons.flutter_dash_rounded),
             ),
           ],
         ),
