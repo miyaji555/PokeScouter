@@ -7,6 +7,9 @@ import 'package:poke_scouter/gen/assets.gen.dart';
 import 'package:poke_scouter/presentation/scouter/scouter_state.dart';
 import 'package:poke_scouter/providers/scouter_controller_provider.dart';
 
+final imageKey = GlobalKey();
+final frameKey = GlobalKey();
+
 class ScouterPage extends ConsumerWidget {
   const ScouterPage({super.key});
 
@@ -76,15 +79,22 @@ class _OriginalImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        SizedBox(
-            width: double.infinity,
-            height: double.infinity,
-            child: Image.memory(originalImageBytes)),
-        Image.asset(Assets.images.switchFrame.path),
-      ],
+    return SizedBox(
+      width: double.infinity,
+      height: double.infinity,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Image.memory(
+            originalImageBytes,
+            key: imageKey,
+          ),
+          Image.asset(
+            Assets.images.switchFrame.path,
+            key: frameKey,
+          ),
+        ],
+      ),
     );
   }
 }

@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image/image.dart' as img;
+import 'package:image/image.dart';
+import 'package:poke_scouter/presentation/scouter/scouter_page.dart';
 import 'package:poke_scouter/presentation/scouter/scouter_state.dart';
 import 'package:poke_scouter/providers/camera_provider.dart';
 
@@ -40,23 +42,65 @@ class ScouterController extends AutoDisposeAsyncNotifier<ScouterState> {
         throw StateError('No image available to crop');
       }
       final originalImage = currentState.originalImage;
-
-      // 固定のトリミング範囲を設定
-      final int cropX = (originalImage.width * 0.25).toInt();
-      final int cropY = (originalImage.height * 0.75).toInt();
-      final int cropWidth = (originalImage.width * 0.5).toInt();
-      final int cropHeight = (originalImage.height * 0.2).toInt();
-
+      final cropRange = _calcCropRange(originalImage);
       final croppedImage = img.copyCrop(
-        originalImage,
-        cropX,
-        cropY,
-        cropWidth,
-        cropHeight,
+        currentState.originalImage,
+        cropRange.cropX,
+        cropRange.cropY,
+        cropRange.cropWidth,
+        cropRange.cropHeight,
       );
 
       return ScouterCroppedImageState(croppedImage, originalImage);
     });
+  }
+
+  ({int cropX, int cropY, int cropWidth, int cropHeight}) _calcCropRange(
+      Image originalImage) {
+    final originalImageHeight = originalImage.height;
+    final originalImageWidth = originalImage.width;
+    // frame画像のサイズとトリミングエリアの位置とサイズ
+    const frameHeight = 1920;
+    const frameWidth = 1080;
+    const subFrameX = 358;
+    const subFrameY = 1058;
+    const subFrameHeight = 282;
+    const subFrameWidth = 405;
+
+    final imageSize = imageKey.currentContext?.size;
+    if (imageSize == null) {
+      throw StateError('Unexpected imageSize is null');
+    }
+    final frameSize = frameKey.currentContext?.size;
+    if (frameSize == null) {
+      throw StateError('Unexpected frameSize is null');
+    }
+
+    final imageScale = originalImageHeight / imageSize.height;
+    final frameScale = frameHeight / frameSize.height;
+
+    // ディスプレイ上の見かけのトリミングエリアの位置とサイズ
+    final displayedCropY =
+        ((originalImageHeight / imageScale - frameHeight / frameScale) / 2 +
+            subFrameY / frameScale);
+    final displayedCropX =
+        ((originalImageWidth / imageScale - frameWidth / frameScale) / 2 +
+            subFrameX / frameScale);
+    final displayedCropWidth = subFrameWidth / frameScale;
+    final displayedCropHeight = subFrameHeight / frameScale;
+
+    // 実際の画像上のトリミングエリアの位置とサイズ
+    final cropY = displayedCropY * imageScale;
+    final cropX = displayedCropX * imageScale;
+    final cropWidth = displayedCropWidth * imageScale;
+    final cropHeight = displayedCropHeight * imageScale;
+
+    return (
+      cropX: cropX.round(),
+      cropY: cropY.round(),
+      cropWidth: cropWidth.round(),
+      cropHeight: cropHeight.round(),
+    );
   }
 
   void backStatus() async {
