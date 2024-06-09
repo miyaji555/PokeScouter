@@ -25,6 +25,8 @@ class ScouterController extends AutoDisposeAsyncNotifier<ScouterState> {
       if (currentState is! ScouterCameraState) {
         throw StateError('Unexpected state: $currentState');
       }
+      final currentCameraState = currentState as ScouterCameraState;
+      state = AsyncValue.data(currentCameraState.copyWithLoading());
       final xfile = await currentState.controller.takePicture();
       final bytes = await xfile.readAsBytes();
       final originalImage = img.decodeImage(bytes);

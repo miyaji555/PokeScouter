@@ -6,8 +6,12 @@ sealed class ScouterState {}
 
 class ScouterCameraState extends ScouterState {
   final CameraController controller;
+  final bool isLoading;
 
-  ScouterCameraState(this.controller);
+  ScouterCameraState(this.controller, {this.isLoading = false});
+
+  ScouterCameraState copyWithLoading() =>
+      ScouterCameraState(controller, isLoading: true);
 }
 
 class ScouterOriginalImageState extends ScouterState {
