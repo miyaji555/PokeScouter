@@ -6,7 +6,8 @@ part of 'pokemon.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Pokemon _$$_PokemonFromJson(Map<String, dynamic> json) => _$_Pokemon(
+_$PokemonImpl _$$PokemonImplFromJson(Map<String, dynamic> json) =>
+    _$PokemonImpl(
       name: json['name'] as String,
       number: json['number'] as String,
       primeNumber: json['primeNumber'] as String,
@@ -24,7 +25,7 @@ _$_Pokemon _$$_PokemonFromJson(Map<String, dynamic> json) => _$_Pokemon(
       hiddenAbility: json['hiddenAbility'] as String?,
     );
 
-Map<String, dynamic> _$$_PokemonToJson(_$_Pokemon instance) =>
+Map<String, dynamic> _$$PokemonImplToJson(_$PokemonImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
       'number': instance.number,

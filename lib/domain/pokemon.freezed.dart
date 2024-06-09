@@ -12,7 +12,7 @@ part of 'pokemon.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Pokemon _$PokemonFromJson(Map<String, dynamic> json) {
   return _Pokemon.fromJson(json);
@@ -159,10 +159,10 @@ class _$PokemonCopyWithImpl<$Res, $Val extends Pokemon>
 }
 
 /// @nodoc
-abstract class _$$_PokemonCopyWith<$Res> implements $PokemonCopyWith<$Res> {
-  factory _$$_PokemonCopyWith(
-          _$_Pokemon value, $Res Function(_$_Pokemon) then) =
-      __$$_PokemonCopyWithImpl<$Res>;
+abstract class _$$PokemonImplCopyWith<$Res> implements $PokemonCopyWith<$Res> {
+  factory _$$PokemonImplCopyWith(
+          _$PokemonImpl value, $Res Function(_$PokemonImpl) then) =
+      __$$PokemonImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -184,10 +184,11 @@ abstract class _$$_PokemonCopyWith<$Res> implements $PokemonCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_PokemonCopyWithImpl<$Res>
-    extends _$PokemonCopyWithImpl<$Res, _$_Pokemon>
-    implements _$$_PokemonCopyWith<$Res> {
-  __$$_PokemonCopyWithImpl(_$_Pokemon _value, $Res Function(_$_Pokemon) _then)
+class __$$PokemonImplCopyWithImpl<$Res>
+    extends _$PokemonCopyWithImpl<$Res, _$PokemonImpl>
+    implements _$$PokemonImplCopyWith<$Res> {
+  __$$PokemonImplCopyWithImpl(
+      _$PokemonImpl _value, $Res Function(_$PokemonImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -209,7 +210,7 @@ class __$$_PokemonCopyWithImpl<$Res>
     Object? ability2 = freezed,
     Object? hiddenAbility = freezed,
   }) {
-    return _then(_$_Pokemon(
+    return _then(_$PokemonImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -276,8 +277,8 @@ class __$$_PokemonCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Pokemon with DiagnosticableTreeMixin implements _Pokemon {
-  const _$_Pokemon(
+class _$PokemonImpl with DiagnosticableTreeMixin implements _Pokemon {
+  const _$PokemonImpl(
       {required this.name,
       required this.number,
       required this.primeNumber,
@@ -294,8 +295,8 @@ class _$_Pokemon with DiagnosticableTreeMixin implements _Pokemon {
       this.ability2,
       this.hiddenAbility});
 
-  factory _$_Pokemon.fromJson(Map<String, dynamic> json) =>
-      _$$_PokemonFromJson(json);
+  factory _$PokemonImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PokemonImplFromJson(json);
 
   @override
   final String name;
@@ -356,10 +357,10 @@ class _$_Pokemon with DiagnosticableTreeMixin implements _Pokemon {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Pokemon &&
+            other is _$PokemonImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.number, number) || other.number == number) &&
             (identical(other.primeNumber, primeNumber) ||
@@ -389,12 +390,12 @@ class _$_Pokemon with DiagnosticableTreeMixin implements _Pokemon {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PokemonCopyWith<_$_Pokemon> get copyWith =>
-      __$$_PokemonCopyWithImpl<_$_Pokemon>(this, _$identity);
+  _$$PokemonImplCopyWith<_$PokemonImpl> get copyWith =>
+      __$$PokemonImplCopyWithImpl<_$PokemonImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PokemonToJson(
+    return _$$PokemonImplToJson(
       this,
     );
   }
@@ -416,9 +417,9 @@ abstract class _Pokemon implements Pokemon {
       final String? type2,
       final String? ability1,
       final String? ability2,
-      final String? hiddenAbility}) = _$_Pokemon;
+      final String? hiddenAbility}) = _$PokemonImpl;
 
-  factory _Pokemon.fromJson(Map<String, dynamic> json) = _$_Pokemon.fromJson;
+  factory _Pokemon.fromJson(Map<String, dynamic> json) = _$PokemonImpl.fromJson;
 
   @override
   String get name;
@@ -452,6 +453,6 @@ abstract class _Pokemon implements Pokemon {
   String? get hiddenAbility;
   @override
   @JsonKey(ignore: true)
-  _$$_PokemonCopyWith<_$_Pokemon> get copyWith =>
+  _$$PokemonImplCopyWith<_$PokemonImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

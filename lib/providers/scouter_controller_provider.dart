@@ -1,30 +1,10 @@
 import 'dart:async';
 
 import 'package:camera/camera.dart';
-import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image/image.dart';
+import 'package:poke_scouter/presentation/scouter/scouter_state.dart';
 import 'package:poke_scouter/providers/camera_provider.dart';
-
-class ScouterState {
-  final CameraController controller;
-  final Image? originalImage;
-  final Image? croppedImage;
-
-  ScouterState({
-    required this.controller,
-    this.originalImage,
-    this.croppedImage,
-  });
-
-  Uint8List? get originalImageBytes {
-    final image = originalImage;
-    if (image == null) {
-      return null;
-    }
-    return Uint8List.fromList(encodePng(image));
-  }
-}
 
 final scouterControllerProvider =
     AutoDisposeAsyncNotifierProvider<ScouterController, ScouterState>(() {
@@ -56,8 +36,7 @@ class ScouterController extends AutoDisposeAsyncNotifier<ScouterState> {
       final bytes = await xfile.readAsBytes();
       final originalImage = decodeImage(bytes);
 
-      return ScouterState(
-        controller: currentState.controller,
+      return currentState.copyWith(
         originalImage: originalImage,
       );
     });
