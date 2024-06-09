@@ -76,24 +76,26 @@ class ScouterController extends AutoDisposeAsyncNotifier<ScouterState> {
       throw StateError('Unexpected frameSize is null');
     }
 
-    final imageScale = originalImageHeight / imageSize.height;
-    final frameScale = frameHeight / frameSize.height;
+    final imageScaleY = originalImageHeight / imageSize.height;
+    final imageScaleX = originalImageWidth / imageSize.width;
+    final frameScaleX = frameHeight / frameSize.height;
+    final frameScaleY = frameWidth / frameSize.width;
 
     // ディスプレイ上の見かけのトリミングエリアの位置とサイズ
     final displayedCropY =
-        ((originalImageHeight / imageScale - frameHeight / frameScale) / 2 +
-            subFrameY / frameScale);
+        ((originalImageHeight / imageScaleY - frameHeight / frameScaleY) / 2 +
+            subFrameY / frameScaleY);
     final displayedCropX =
-        ((originalImageWidth / imageScale - frameWidth / frameScale) / 2 +
-            subFrameX / frameScale);
-    final displayedCropWidth = subFrameWidth / frameScale;
-    final displayedCropHeight = subFrameHeight / frameScale;
+        ((originalImageWidth / imageScaleX - frameWidth / frameScaleX) / 2 +
+            subFrameX / frameScaleX);
+    final displayedCropWidth = subFrameWidth / frameScaleX;
+    final displayedCropHeight = subFrameHeight / frameScaleY;
 
     // 実際の画像上のトリミングエリアの位置とサイズ
-    final cropY = displayedCropY * imageScale;
-    final cropX = displayedCropX * imageScale;
-    final cropWidth = displayedCropWidth * imageScale;
-    final cropHeight = displayedCropHeight * imageScale;
+    final cropY = displayedCropY * imageScaleY;
+    final cropX = displayedCropX * imageScaleX;
+    final cropWidth = displayedCropWidth * imageScaleX;
+    final cropHeight = displayedCropHeight * imageScaleY;
 
     return (
       cropX: cropX.round(),
@@ -122,7 +124,7 @@ class ScouterController extends AutoDisposeAsyncNotifier<ScouterState> {
   Future<CameraController> initializeCamera() async {
     final camera = ref.read(camerasProvider).first;
     final controller =
-        CameraController(camera, ResolutionPreset.high, enableAudio: false);
+        CameraController(camera, ResolutionPreset.max, enableAudio: false);
     await controller.initialize();
     ref.onDispose(() {
       controller.dispose();

@@ -64,11 +64,17 @@ class _CameraView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: CameraPreview(
-        controller,
-        child: Image.asset(Assets.images.switchFrame.path),
-      ),
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        CameraPreview(
+          controller,
+        ),
+        Image.asset(
+          Assets.images.switchFrame.path,
+          key: frameKey,
+        ),
+      ],
     );
   }
 }
