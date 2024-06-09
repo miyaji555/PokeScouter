@@ -47,8 +47,8 @@ class ImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return switch (state) {
-      ScouterCameraState(:final controller, :final isLoading) => _CameraView(
-          state: ScouterCameraState(controller, isLoading: isLoading)),
+      ScouterCameraState(:final controller) =>
+        _CameraView(controller: controller),
       ScouterOriginalImageState(:final originalImageBytes) =>
         _OriginalImageView(originalImageBytes: originalImageBytes),
       ScouterCroppedImageState(:final croppedImageBytes) =>
@@ -58,9 +58,9 @@ class ImageView extends StatelessWidget {
 }
 
 class _CameraView extends StatelessWidget {
-  final ScouterCameraState state;
+  final CameraController controller;
 
-  const _CameraView({required this.state});
+  const _CameraView({required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -68,13 +68,12 @@ class _CameraView extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         CameraPreview(
-          state.controller,
+          controller,
         ),
         Image.asset(
           Assets.images.switchFrame.path,
           key: frameKey,
         ),
-        if (state.isLoading) const CircularProgressIndicator(),
       ],
     );
   }
