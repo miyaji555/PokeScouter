@@ -60,12 +60,12 @@ class _CameraView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        width: double.infinity,
-        child: CameraPreview(
-          controller,
-          child: Image.asset(Assets.images.switchFrame.path),
-        ));
+    return Center(
+      child: CameraPreview(
+        controller,
+        child: Image.asset(Assets.images.switchFrame.path),
+      ),
+    );
   }
 }
 
@@ -76,10 +76,16 @@ class _OriginalImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: Image.memory(originalImageBytes));
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: Image.memory(originalImageBytes)),
+        Image.asset(Assets.images.switchFrame.path),
+      ],
+    );
   }
 }
 
