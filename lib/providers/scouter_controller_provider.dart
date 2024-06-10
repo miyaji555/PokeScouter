@@ -8,6 +8,7 @@ import 'package:poke_scouter/presentation/scouter/scouter_page.dart';
 import 'package:poke_scouter/presentation/scouter/scouter_state.dart';
 import 'package:poke_scouter/providers/camera_provider.dart';
 import 'package:poke_scouter/repository/predict_repository.dart';
+import 'package:poke_scouter/util/logger.dart';
 
 final scouterControllerProvider =
     AutoDisposeAsyncNotifierProvider<ScouterController, ScouterState>(() {
@@ -141,7 +142,6 @@ class ScouterController extends AutoDisposeAsyncNotifier<ScouterState> {
     final result = await ref
         .read(predictRepositoryProvider)
         .sendImageToApi(currentState.croppedImage);
-    print(result);
-    print(result.pokemon);
+    logger.d(result);
   }
 }
